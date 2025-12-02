@@ -1,0 +1,45 @@
+<?php get_header(); ?>
+
+<!-- PAGE -->
+
+<?php if(!is_front_page() ) { ?><?php include('advanced-search.php'); ?><?php } ?>
+
+<?php if(is_front_page() ) { ?>
+<div class="featured-slider-container">
+<h2>Featured Properties</h2>
+<div class="featured-inside-container">
+<?php 
+$slider = array(
+    "id" => "13",
+    
+);
+echo(render_view($slider)); ?>
+</div>
+</div>
+
+<?php include('advanced-search.php'); ?>
+
+<?php } ?>
+
+
+<article id="content">
+
+
+
+
+
+<?php the_post(); ?>
+
+<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+
+<h1 class="entry-title"><?php the_title(); ?></h1>
+
+<div class="entry-content">
+<?php the_content(); ?>
+<?php wp_link_pages('before=<div class="page-link">' . __( 'Pages:', 'blankslate' ) . '&after=</div>') ?>
+<?php edit_post_link( __( 'Edit', 'blankslate' ), '<span class="edit-link">', '</span>' ) ?>
+</div>
+</div>
+</article>
+<?php get_sidebar(); ?>
+<?php get_footer(); ?>
