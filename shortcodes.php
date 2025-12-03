@@ -1,9 +1,4 @@
 <?php
-
-
-
-
-  
 //[sectionbreak]
 function sectionbreak()
 {
