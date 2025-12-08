@@ -2,56 +2,50 @@
 <html <?php language_attributes(); ?>>
 
 <head>
-	<meta http-equiv="content-type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-	<title><?php wp_title(' | ', true, 'right'); ?><?php bloginfo('name'); ?></title>
-	<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_url'); ?>" />
-	<link rel="stylesheet" href="<?php bloginfo("template_url"); ?>/shortcodes.css" type="text/css" media="screen" />
-<link rel="shortcut icon" href="<?php bloginfo("template_url"); ?>/favicon.ico" type="image/x-icon">
-<link rel="icon" href="<?php bloginfo("template_url"); ?>/favicon.ico" type="image/x-icon">
-
-<!-- Pulled from http://code.google.com/p/html5shiv/ -->
-<!--[if lt IE 9]>
-<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-<script src="<?php bloginfo("template_url"); ?>/scripts.js"></script>
-<![endif]-->
-
-	<?php if ( is_singular() ) wp_enqueue_script( 'comment-reply' ); ?>
+	<meta charset="<?php bloginfo('charset'); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
 	<?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
+	<header>
+		<div class="header-container">
+			<div class="content-container">
+				<div id="logo-container">
+					<a href="<?php echo home_url() ?>/" title="<?php bloginfo( 'name' ) ?>" rel="home" class="logo">
+						<span class="sr-only"><?php bloginfo( 'name' ) ?>: <?php bloginfo( 'description' ) ?></span>
+					</a>
+				</div> <!--branding-->
+					
+				<div id="search" class="desktop-search">
+					<?php get_search_form(); ?>
+				</div> <!--search-->
 
+				<div class="mobile-menu-button-container">
+					<button type="button" id="menu-toggle" aria-controls="top-nav" aria-expanded="false">
+						<i class="fas fa-bars fa-2xl"></i>
+					</button>
 
-<header>
-	<div class="header-container">
-		<hgroup id="branding">
-		
-			<h1 id="blog-title">
-				<a href="<?php echo home_url() ?>/" title="<?php bloginfo( 'name' ) ?>" rel="home">
-					<?php bloginfo( 'name' ) ?>
-				</a>
-			</h1>
+					<div class="nav-toggle-container" id="nav-toggle-container">
+						<nav id="top-nav">
+							<div id="mobile-nav-close-container">
+								<button type="button" id="mobile-nav-close" aria-controls="top-nav" aria-expanded="true">
+									<i class="fas fa-times fa-2xl"></i>
+									<span class="sr-only"><?php _e('Close Menu', 'bluesky2025'); ?></span>
+								</button>
+							</div>
+
+							<?php wp_nav_menu( array( 'theme_location' => 'main-menu' ) ); ?>
+						</nav>
+					</div> <!--nav-toggle-container-->
+				</div>
+			</div> <!-- content-container-->
+
 			
-			<h2 id="blog-description"><?php bloginfo( 'description' ) ?></h2>
-			
-		</hgroup> <!--branding-->
-		
-		<div id="search">
-			<?php get_search_form(); ?>
-		</div> <!--search-->
-	</div>
-		
+		</div> <!--header-container-->
 	</header>
 
-
 	<div id="wrapper" class="hfeed">
-
-
-
-<nav id="top-nav">
-			<?php wp_nav_menu( array( 'theme_location' => 'main-menu' ) ); ?>
-		</nav>
-	
-	
-	
-	<div id="container">
+		<div id="container">

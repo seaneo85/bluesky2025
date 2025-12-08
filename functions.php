@@ -18,8 +18,19 @@ if (!defined('ABSPATH')) {
  * Enqueue theme scripts and styles
  */
 function bluesky_enqueue_scripts() {
-    wp_register_script('bluesky-custom', get_template_directory_uri() . '/scripts.js', array('jquery'), '1.0.0', true);
-    wp_enqueue_script('bluesky-custom');
+    // Main theme stylesheet
+    wp_enqueue_style('bluesky-style', get_stylesheet_uri(), array(), '1.0.0');
+    
+    // Shortcodes stylesheet
+    wp_enqueue_style('bluesky-shortcodes', get_template_directory_uri() . '/shortcodes.css', array('bluesky-style'), '1.0.0');
+    
+    // Custom scripts
+    wp_enqueue_script('bluesky-custom', get_template_directory_uri() . '/scripts.js', array('jquery'), '1.0.0', true);
+    
+    // Comment reply script (only on singular posts/pages)
+    if (is_singular() && comments_open() && get_option('thread_comments')) {
+        wp_enqueue_script('comment-reply');
+    }
 }
 add_action('wp_enqueue_scripts', 'bluesky_enqueue_scripts');
 
@@ -32,6 +43,19 @@ function bluesky_theme_setup() {
     
     // Add theme support
     add_theme_support('automatic-feed-links');
+    add_theme_support('title-tag'); // Let WordPress handle the title tag
+    add_theme_support('html5', array(
+        'search-form',
+        'comment-form',
+        'comment-list',
+        'gallery',
+        'caption',
+        'style',
+        'script'
+    ));
+    
+    // Add responsive image support
+    add_theme_support('responsive-embeds');
     
     // Register navigation menus
     register_nav_menus(array(
@@ -39,6 +63,18 @@ function bluesky_theme_setup() {
     ));
 }
 add_action('after_setup_theme', 'bluesky_theme_setup');
+
+/**
+ * Add favicon to head
+ */
+function bluesky_add_favicon() {
+    $favicon_url = get_template_directory_uri() . '/favicon.ico';
+    if (file_exists(get_template_directory() . '/favicon.ico')) {
+        echo '<link rel="shortcut icon" href="' . esc_url($favicon_url) . '" type="image/x-icon">' . "\n";
+        echo '<link rel="icon" href="' . esc_url($favicon_url) . '" type="image/x-icon">' . "\n";
+    }
+}
+add_action('wp_head', 'bluesky_add_favicon');
 
 // ==============================================
 // ADMIN CUSTOMIZATION

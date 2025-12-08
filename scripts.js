@@ -1,7 +1,13 @@
-$(document).ready(function() {
-	
-	$("nav#top-nav .menu-item-has-children").hover(function(){
-	   $("nav#top-nav .sub-menu").slideToggle();
-	});
-	
+const mobileMenuButton = document.getElementById('menu-toggle');
+const navMenu = document.getElementById('nav-toggle-container');
+const navOverlay = document.getElementById('top-nav')
+
+mobileMenuButton.addEventListener('click', () => {
+  navMenu.classList.toggle('visible');
+});
+
+navOverlay.addEventListener('click', () => {
+  if (navMenu.classList.contains('visible')) {
+    navMenu.classList.remove('visible');
+  }
 });

@@ -1,6 +1,17 @@
-<form method="get" id="searchform" action="<?php echo home_url( '/' ); ?>">
-<div id="search-inputs">
-<input type="text" value="Search" name="s" id="s" onFocus="this.value=''" />
-<input type="image" src="<?php bloginfo("template_url"); ?>/images/go.png" id="searchsubmit" alt="search" />
-</div>
+<form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
+  <label for="search-field" class="sr-only"><?php _e('Search for:', 'bluesky2025'); ?></label>
+  <div class="search-inputs">
+    <input type="search" 
+      id="search-field" 
+      name="s" 
+      placeholder="<?php esc_attr_e('Search...', 'bluesky2025'); ?>"
+      value="<?php echo get_search_query(); ?>"
+      aria-label="<?php esc_attr_e('Search', 'bluesky2025'); ?>" />
+    <button type="submit" class="search-submit">
+      <span class="sr-only"><?php _e('Search', 'bluesky2025'); ?></span>
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+      </svg>
+    </button>
+  </div>
 </form>
