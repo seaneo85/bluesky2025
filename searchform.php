@@ -1,12 +1,23 @@
-<form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
-  <label for="search-field" class="sr-only"><?php _e('Search for:', 'bluesky2025'); ?></label>
+<?php
+// Get arguments passed to get_search_form()
+$args = wp_parse_args($args ?? array(), array(
+  'id_suffix' => '',
+  'placeholder' => __('Search...', 'bluesky2025'),
+  'aria_label' => __('Search', 'bluesky2025')
+));
+
+$unique_id = 'search-field' . ($args['id_suffix'] ? '-' . $args['id_suffix'] : '');
+?>
+<form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/listings')); ?>">
+  <label for="<?php echo esc_attr($unique_id); ?>" class="sr-only"><?php _e('Search for:', 'bluesky2025'); ?></label>
   <div class="search-inputs">
-    <input type="search" 
-      id="search-field" 
+    <input type="search"
+      class="search-field"
+      id="<?php echo esc_attr($unique_id); ?>" 
       name="s" 
-      placeholder="<?php esc_attr_e('Search...', 'bluesky2025'); ?>"
+      placeholder="<?php echo esc_attr($args['placeholder']); ?>"
       value="<?php echo get_search_query(); ?>"
-      aria-label="<?php esc_attr_e('Search', 'bluesky2025'); ?>" />
+      aria-label="<?php echo esc_attr($args['aria_label']); ?>" />
     <button type="submit" class="search-submit">
       <span class="sr-only"><?php _e('Search', 'bluesky2025'); ?></span>
       <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">

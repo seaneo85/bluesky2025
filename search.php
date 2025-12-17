@@ -7,7 +7,6 @@
 <h1 class="page-title"><?php _e( 'Search Results for ', 'blankslate' ); ?><span><?php the_search_query(); ?></span></h1>
 <?php global $wp_query; $total_pages = $wp_query->max_num_pages; if ( $total_pages > 1 ) { ?>
 <div id="nav-above" class="navigation">
-<?php wp_pagenavi(); ?>
 </div>
 <?php } ?>
 <?php while ( have_posts() ) : the_post() ?>
@@ -39,9 +38,6 @@
 </div>
 <?php endwhile; ?>
 <?php global $wp_query; $total_pages = $wp_query->max_num_pages; if ( $total_pages > 1 ) { ?>
-<div id="nav-below" class="navigation">
-<?php wp_pagenavi(); ?>
-</div>
 <?php } ?>
 <?php else : ?>
 <div id="post-0" class="post no-results not-found">

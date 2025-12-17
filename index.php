@@ -4,57 +4,41 @@
 
 <?php include('advanced-search.php'); ?>
 
-<h1 class="page-title"><titile>All Real Estate Listings</title></h1>
+<?php
+$page_title = 'All Listings';
+$current_type = isset($_GET['listing-type']) ? sanitize_text_field($_GET['listing-type']) : '';
+$current_county = isset($_GET['county']) ? sanitize_text_field($_GET['county']) : '';
+$current_search = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
+
+// Only show one filter at a time - priority: search, then property type, then county
+if (!empty($current_search)) {
+	$page_title = 'Search Results for "' . esc_html($current_search) . '"';
+} elseif (!empty($current_type)) {
+	$property_types = bluesky_get_property_types();
+	if (isset($property_types[$current_type])) {
+		$page_title = esc_html($property_types[$current_type]);
+	}
+} elseif (!empty($current_county)) {
+	$counties = bluesky_get_counties();
+	if (isset($counties[$current_county])) {
+		$page_title = 'Properties in ' . esc_html($counties[$current_county]) . ' County';
+	}
+}
+?>
+
+<h1 class="page-title"><?php echo $page_title; ?></h1>
 
 <div id="content">
-
-
-
-
-
-	<?php global $wp_query; $total_pages = $wp_query->max_num_pages; if ( $total_pages > 1 ) { ?>
-		<div id="nav-above" class="navigation">
-			<?php wp_pagenavi(); ?>
-		</div> <!-- End nav-above-->
-	<?php } ?>
-
-
-
 	<?php while ( have_posts() ) : the_post() ?>
 
-	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	
-		<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( __('Read', 'blankslate'), the_title_attribute('echo=0') ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
-		
-		<div class="entry-meta">
-		
-			<span class="meta-prep meta-prep-author"><?php _e('By ', 'blankslate'); ?></span>
-			<span class="author vcard"><a class="url fn n" href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>" title="<?php printf( __( 'View all articles by %s', 'blankslate' ), $authordata->display_name ); ?>"><?php the_author(); ?></a></span>
-			<span class="meta-sep"> | </span>
-			<span class="meta-prep meta-prep-entry-date"><?php _e('Published ', 'blankslate'); ?></span>
-			<span class="entry-date"><abbr class="published" title="<?php the_time('Y-m-d\TH:i:sO') ?>"><?php the_time( get_option( 'date_format' ) ); ?></abbr></span>
-	<?php edit_post_link( __( 'Edit', 'blankslate' ), "<span class=\"meta-sep\"> | </span>\n\t\t\t\t\t\t<span class=\"edit-link\">", "</span>\n\t\t\t\t\t" ) ?>
-	
-		</div> <!-- end entry-meta -->
-	
-		<div class="entry-content">
-			
-			<?php the_content( __( 'continue reading <span class="meta-nav">&raquo;</span>', 'blankslate' )  ); ?>
-			<?php wp_link_pages('before=<div class="page-link">' . __( 'Pages:', 'blankslate' ) . '&after=</div>') ?>
-			
-		</div> <!-- entry-content -->
-	
-	</div> <!-- post -->
+		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+			<?php
+			// Use the post_display shortcode to show post details
+			echo do_shortcode('[post_display show_title="true" title_tag="h2" wrapper="div" class="entry-content" show_meta="true"]');
+			?>
+		</article>
 	
 	<?php endwhile; ?>
-	<?php global $wp_query; $total_pages = $wp_query->max_num_pages; if ( $total_pages > 1 ) { ?>
-	
-	<div id="nav-below" class="navigation">
-	<?php wp_pagenavi(); ?>
-	</div>
-	
-	<?php } ?>
-	
 </div> <!-- CONTENT -->
 
 <?php get_sidebar(); ?>
