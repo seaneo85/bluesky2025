@@ -230,11 +230,11 @@ function bluesky_modify_main_query($query)
       if (isset($db_mapping[$property_type_url])) {
         $db_value = $db_mapping[$property_type_url];
 
-        // For checkbox fields, use exact matching
+        // For Toolset checkbox fields, search within serialized array structure
         $meta_query[] = array(
           'key' => 'wpcf-property-type-s',
-          'value' => $db_value,
-          'compare' => '='
+          'value' => '"' . $db_value . '"',
+          'compare' => 'LIKE'
         );
       }
     } elseif (isset($_GET['county']) && !empty($_GET['county'])) {
