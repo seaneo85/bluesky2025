@@ -26,20 +26,22 @@ if (!empty($current_search)) {
 }
 ?>
 
-<h1 class="page-title"><?php echo $page_title; ?></h1>
+<div class="page-content-wrapper">
+	<h1 class="page-title"><?php echo $page_title; ?></h1>
 
-<div id="content">
-	<?php while ( have_posts() ) : the_post() ?>
+	<div id="content">
+		<?php while ( have_posts() ) : the_post() ?>
 
-		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-			<?php
-			// Use the post_display shortcode to show post details
-			echo do_shortcode('[post_display show_title="true" title_tag="h2" wrapper="div" class="entry-content" show_meta="true"]');
-			?>
-		</article>
-	
-	<?php endwhile; ?>
-</div> <!-- CONTENT -->
+			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+				<?php
+				// Use the post_display shortcode to show post details
+				echo do_shortcode('[post_display show_title="true" title_tag="h2" wrapper="div" class="listing-wrapper" show_meta="true"]');
+				?>
+			</article>
+		
+		<?php endwhile; ?>
+	</div> <!-- CONTENT -->
 
-<?php get_sidebar(); ?>
+	<?php get_sidebar(); ?>
+</div> <!-- PAGE CONTENT WRAPPER -->
 <?php get_footer(); ?>

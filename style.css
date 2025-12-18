@@ -12,6 +12,7 @@ Theme Name: Blue Sky Real Estate PA 2025
   --heading-font: "Barlow Semi Condensed", sans-serif;
   --body-font: "Barlow", sans-serif;
   --border-gray: #C9C9C9;
+  --text-color: #212529;
 }
 
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{font-size:100%;font:inherit;padding:0;border:0;margin:0;vertical-align:baseline}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}.sticky{}.bypostauthor{}.wp-caption{}.wp-caption-text{}.gallery-caption{}.alignright{}.alignleft{}.aligncenter{}
@@ -21,6 +22,7 @@ body {
   background-repeat: repeat-x;
   font-size: 16px;
   font-family: var(--body-font);
+  color: var(--text-color);
 }
 
 body:before 
@@ -245,7 +247,6 @@ div#wrapper {
   border: 1px solid var(--border-gray);
   height: 100%;
   padding: 0;
-  font-style: italic;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 6px;
@@ -255,6 +256,11 @@ div#wrapper {
 #search-inputs input#s:focus,
 .search-field:focus {
   outline: 1px solid #3769B1;
+}
+
+.search-field::placeholder {
+  color: var(--text-color);
+  font-style: initial;
 }
 
 #search-inputs input#searchsubmit,
@@ -529,7 +535,14 @@ text-decoration: underline;
   line-height: 1.2;
   font-weight: bold;
   color: var(--link-color);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.swiper .property-content-wrapper .property-price {
+  font-size: 1.15rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-family: var(--heading-font);
 }
 
 .swiper .property-content-wrapper .property-meta {
@@ -692,7 +705,7 @@ display: none;
 
 .advancedsearch {
   width: 100%;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 0;
   display: flex;
@@ -744,10 +757,13 @@ display: none;
   display: flex;
   gap: 1rem;
   align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .advancedsearch .filters-search-wrapper .search-category {
-  flex-grow: 1;
+  flex: 1 1 0;
+  width: 100%;
 }
 
 .advancedsearch .select-inputs {
@@ -773,6 +789,13 @@ display: none;
   box-sizing: border-box;
 }
 
+@media (min-width: 600px) {
+  .advancedsearch .filters-search-wrapper {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
 /* Page/Post Article Stylings
 ---------------------------------------------------------------*/
 
@@ -780,33 +803,92 @@ span.edit-link {
   width: 100%;
 }
 
-#content {
-  width: 660px;
-  margin-right: 2%;
+#content article {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-gray);
 }
 
-#property-image-container {
-width: 66%;
-float: left;
-margin-right: 2%;
+#content article:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
-
-
-#content .entry-content p {
-font-size: 90%;
-line-height: 145%;
-margin-bottom: 20px;
+#content .post-display-image {
+  margin-bottom: 1rem;
 }
 
-#content .entry-content img {
+#content .post-display-image img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #93a5b9;
+  padding: 4px;
+}
+
+#content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--dark-blue);
+}
+
+#content .post-display-meta ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  
+}
+
+#content .post-display-meta ul li {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 0.25rem;
+}
+
+#content .post-display-price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: var(--heading-font);
+}
+
+#content .post-display-excerpt {
+  margin-bottom: 0;
+}
+
+@media screen and (min-width: 768px) {
+  #content .listing-wrapper {
+    display: flex;
+    gap: 1rem;
+  }
+
+  #content .post-display-image {
+    flex: 1 1 40%;
+    max-width: 40%;
+    min-width: 300px;
+    margin-bottom: 0;
+  }
+
+  #content .post-display-image img {
+    height: auto;
+    max-width: 100%;
+  }
+}
+
+.entry-content p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.entry-content img {
   border: 1px solid #93a5b9;
   padding: 4px;
   max-width: 100%;
   height: auto;
 }
 
-#content .entry-content ol {
+.entry-content ol {
 display: block;
 list-style-type: decimal;
 list-style-position: inside;
@@ -814,20 +896,10 @@ margin-bottom: 20px;
 margin-left: 20px;
 }
 
-#content .entry-content ul {
+.entry-content ul {
   list-style: none;
   margin-bottom: 20px;
   margin-left: 20px;
-}
-
-#content .entry-content ul li, #content .entry-content ol li  {
-   text-indent: -10px;
-   font-size:90%;
-}
-
-#content .entry-content ul li:before {
-  content: "• ";
-    color: #2a5077;
 }
 
 aside#sidebar {

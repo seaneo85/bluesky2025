@@ -249,7 +249,6 @@ function post_display_shortcode($atts, $content = null)
   // Extract shortcode attributes
   extract(shortcode_atts(array(
     'show_title' => 'true',
-    'show_excerpt' => 'false',
     'title_tag' => 'h2',
     'wrapper' => 'div',
     'class' => 'post-display',
@@ -262,12 +261,29 @@ function post_display_shortcode($atts, $content = null)
   }
 
   $property_types = types_render_field('property-type-s', array("separator" => ", "));
+  $featured_image = types_render_field('property-image', array("size" => "large"));
+  $price = types_render_field('property-price', array());
+  $county = types_render_field('county', array());
+  $address = types_render_field('property-address', array());
+  $city = types_render_field('city', array());
+  $excerpt = get_the_excerpt();
 
   $output = '';
 
   // Start wrapper
   $wrapper_classes = $class;
   $output .= '<' . $wrapper . ' class="' . esc_attr($wrapper_classes) . '">';
+
+  // Display featured image if available
+  if ($featured_image) {
+    $output .= '<div class="post-display-image">';
+    $output .= '<a href="' . get_permalink() . '">';
+    $output .= $featured_image;
+    $output .= '</a>';
+    $output .= '</div>';
+  }
+
+  $output .= '<div class="content-wrapper">';
 
   // Display title
   if ($show_title === 'true') {
@@ -279,16 +295,42 @@ function post_display_shortcode($atts, $content = null)
     }
   }
 
+  $output .= '<div class="post-display-price">$' . esc_html($price) . '</div>';
+
   // Future expansion: Post meta display
   if ($show_meta === 'true') {
     $output .= '<div class="post-display-meta">';
-    // This will be expanded later to show custom post meta
-    $output .= '<!-- Post meta will be displayed here -->';
-    $output .= '<ul>';
-    $output .= '<li>Property Types: ' . esc_html($property_types) . '</li>';
-    $output .= '</ul>';
-    $output .= '</div>';
+      // This will be expanded later to show custom post meta
+      $output .= '<!-- Post meta will be displayed here -->';
+      $output .= '<ul>';
+
+      if ( $property_types ) {
+        $output .= '<li><strong>Property Types:</strong> ' . esc_html($property_types) . '</li>';
+      }
+
+      if ($county) {
+        $output .= '<li><strong>County:</strong> ' . esc_html($county) . '</li>';
+      }
+
+      if ($address) {
+        $output .= '<li><strong>Address:</strong> ' . esc_html($address) . '</li>';
+      }
+
+      if ($city) {
+        $output .= '<li><strong>City:</strong> ' . esc_html($city) . '</li>';
+      }
+
+      $output .= '</ul>';
+
+    $output .= '</div>'; // .post-display-meta
   }
+
+    if ($excerpt) {
+      // Ensure excerpt is wrapped in paragraph tags
+      $output .= '<p class="post-display-excerpt">' . wp_kses_post($excerpt) . '</p>';
+    }
+
+  $output .= '</div>'; // .content-wrapper
 
   // End wrapper
   $output .= '</' . $wrapper . '>';
