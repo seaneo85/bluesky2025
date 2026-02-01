@@ -15,6 +15,7 @@
       <div class="content-container">
         <div id="logo-container">
           <a href="<?php echo home_url() ?>/" title="<?php bloginfo( 'name' ) ?>" rel="home" class="logo">
+            <img src="<?php echo get_template_directory_uri(); ?>/images/bluesky-logo-2025.svg" alt="<?php bloginfo( 'name' ) ?>" />
             <span class="sr-only"><?php bloginfo( 'name' ) ?>: <?php bloginfo( 'description' ) ?></span>
           </a>
         </div> <!--branding-->
