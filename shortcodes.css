@@ -3,18 +3,18 @@
 .button {
     cursor: pointer;
     border-radius: 8px;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
     display: inline-block;
     margin-bottom: 10px;
     outline: none;
     text-align: center;
     text-decoration: none;
     text-shadow: 0 1px 1px rgba(0,0,0,.5);
-	border: solid 1px #b7b7b7 !important;
+  border: solid 1px #b7b7b7 !important;
 }
 
 .button:hover { text-decoration: none; }
@@ -239,8 +239,8 @@
     background: -webkit-gradient(linear,left top, left bottom, from(#FEDA48), to(#EAC220));
   background: -moz-linear-gradient(center top , #FEDA48, #EAC220) repeat scroll 0 0 transparent;
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#FEDA48', endColorstr='#EAC220');
-	color: white !important;
-	
+  color: white !important;
+  
 }
 .button-gold:hover {
     background: #feda48 !important;
@@ -265,8 +265,8 @@
     background: -webkit-gradient(linear,left top, left bottom, from(#4D7AAA), to(#002144));
   background: -moz-linear-gradient(center top , #4D7AAA, #002144) repeat scroll 0 0 transparent;
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4D7AAA', endColorstr='#002144');
-	text-shadow: none;
-	
+  text-shadow: none;
+  
 }
 .button-blue:hover {
     background: #4D7AAA !important;
@@ -393,65 +393,70 @@ background-color: #F2F2F2;
 background-image: url("./images/box-code.png");
 }
 
-/* Column Classes
+/* Column Classes - Modern CSS Grid System
 ------------------------------------------------------------ */
 
-.column-four-fifths,
-.column-one-fifth,
-.column-one-fourth,
-.column-one-half,
-.column-one-third,
-.column-three-fifths,
-.column-three-fourths,
-.column-two-fifths,
-.column-two-fourths,
-.column-two-thirds {
-    float: left;
-    margin: 0 0 20px;
-    padding-right: 3%;
+/* Grid container - wrap your columns in this */
+.columns-container {
+  display: grid;
+  gap: 3%;
+  margin-bottom: 20px;
 }
 
-.column-one-half,
-.column-two-fourths {
-    width: 48%;
+/* Grid layout classes for easy setup */
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+/* Fraction-based layouts */
+.grid-halves { grid-template-columns: 1fr 1fr; }
+.grid-thirds { grid-template-columns: 1fr 2fr; }
+.grid-thirds-reverse { grid-template-columns: 2fr 1fr; }
+.grid-quarters { grid-template-columns: 1fr 3fr; }
+.grid-quarters-reverse { grid-template-columns: 3fr 1fr; }
+.grid-fifths { grid-template-columns: 2fr 3fr; }
+.grid-fifths-reverse { grid-template-columns: 3fr 2fr; }
+
+/* Individual column classes - work inside .columns-container */
+.column-one-half { grid-column: span 1; }
+.column-two-fourths { grid-column: span 1; }
+.column-one-third { grid-column: span 1; }
+.column-two-thirds { grid-column: span 2; }
+.column-one-fourth { grid-column: span 1; }
+.column-three-fourths { grid-column: span 3; }
+.column-one-fifth { grid-column: span 1; }
+.column-two-fifths { grid-column: span 2; }
+.column-three-fifths { grid-column: span 3; }
+.column-four-fifths { grid-column: span 4; }
+
+/* Mobile-first: stack all columns on small screens */
+@media screen and (max-width: 767px) {
+    .columns-container {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+    
+    .column-one-half,
+    .column-two-fourths,
+    .column-one-third,
+    .column-two-thirds,
+    .column-one-fourth,
+    .column-three-fourths,
+    .column-one-fifth,
+    .column-two-fifths,
+    .column-three-fifths,
+    .column-four-fifths {
+        grid-column: span 1;
+    }
 }
 
-.column-one-third {
-    width: 31%;
-}
-
-.column-two-thirds {
-    width: 65%;
-}
-
-.column-one-fourth {
-    width: 22.5%;
-}
-
-.column-three-fourths {
-    width: 73.5%;
-}
-
-.column-one-fifth {
-    width: 17.4%;
-}
-
-.column-two-fifths {
-    width: 37.8%;
-}
-
-.column-three-fifths {
-    width: 58.2%;
-}
-
-.column-four-fifths {
-    width: 78.6%;
-}
-
+/* Legacy support - column-last class still works but not needed */
 .column-last {
-    clear: right;
-    padding-right: 0;
+    /* No special styling needed with flexbox */
 }
+
+
 
 /* Mobile Shortcode
 ------------------------------------------------------------ */
@@ -464,12 +469,12 @@ display: none;
 ------------------------------------------------------------ */
 
 .shortside {
-	float: right;
-	margin-bottom: -15px;
+  float: right;
+  margin-bottom: -15px;
 }
 
 .shortside #sidebar {
-	border-left: 1px solid #E5E5E5;
+  border-left: 1px solid #E5E5E5;
     margin-left: 15px;
     margin-top: 0;
     padding: 0 0 0 15px;
@@ -478,8 +483,8 @@ display: none;
 }
 
 .shortside #sidebar ul, .shortside #sidebar ol {
-	list-style: none;
-	margin: 0;
+  list-style: none;
+  margin: 0;
 }
 
 .shortside #sidebar ul li {
@@ -493,7 +498,7 @@ margin-left: 15px;
 }
 
 .shortside #sidebar ul li ul li {
-	padding: 0;
+  padding: 0;
 }
 
 .section-break {

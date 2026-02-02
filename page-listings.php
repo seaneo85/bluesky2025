@@ -13,7 +13,6 @@
     <div class="entry-content">
       <?php the_content(); ?>
       <?php wp_link_pages('before=<div class="page-link">' . __('Pages:', 'blankslate') . '&after=</div>') ?>
-      <?php edit_post_link(__('Edit', 'blankslate'), '<span class="edit-link">', '</span>') ?>
     </div>
   </div>
 </article>

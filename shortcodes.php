@@ -76,16 +76,39 @@ add_shortcode('one-fifth', 'one_fifth_shortcode');
 add_shortcode('two-fifths', 'two_fifths_shortcode');
 add_shortcode('three-fifths', 'three_fifths_shortcode');
 add_shortcode('four-fifths', 'four_fifths_shortcode');
+add_shortcode('container', 'columns_container_shortcode');
+add_shortcode('columns', 'columns_container_shortcode');
+
+function columns_container_shortcode($atts, $content)
+{
+  // Extract shortcode attributes
+  extract(shortcode_atts(array(
+    'type' => '',
+    'class' => ''
+  ), $atts));
+  
+  // Build CSS classes
+  $css_classes = 'columns-container';
+  
+  // Add grid type if specified
+  if (!empty($type)) {
+    $css_classes .= ' grid-' . esc_attr($type);
+  }
+  
+  // Add custom classes if specified
+  if (!empty($class)) {
+    $css_classes .= ' ' . esc_attr($class);
+  }
+  
+  return '<div class="' . $css_classes . '">' . do_shortcode($content) . '</div>';
+}
 
 function one_half_shortcode($atts, $content)
 {
   extract(shortcode_atts(array('last' => ''), $atts));
 
-  if ($last != '') {
-    $last = ' column-last';
-  }
-
-  $return = '<div class="column-one-half' . $last . '">' . remove_wpautop($content) . '</div>';
+  // Note: 'last' attribute is maintained for backward compatibility but not used
+  $return = '<div class="column-one-half">' . remove_wpautop($content) . '</div>';
 
   return $return;
 }
@@ -97,11 +120,8 @@ function one_third_shortcode($atts, $content)
 {
   extract(shortcode_atts(array('last' => ''), $atts));
 
-  if ($last != '') {
-    $last = ' column-last';
-  }
-
-  $return = '<div class="column-one-third' . $last . '">' . remove_wpautop($content) . '</div>';
+  // Note: 'last' attribute is maintained for backward compatibility but not used
+  $return = '<div class="column-one-third">' . remove_wpautop($content) . '</div>';
 
   return $return;
 }
@@ -113,11 +133,8 @@ function two_thirds_shortcode($atts, $content)
 {
   extract(shortcode_atts(array('last' => ''), $atts));
 
-  if ($last != '') {
-    $last = ' column-last';
-  }
-
-  $return = '<div class="column-two-thirds' . $last . '">' . remove_wpautop($content) . '</div>';
+  // Note: 'last' attribute is maintained for backward compatibility but not used
+  $return = '<div class="column-two-thirds">' . remove_wpautop($content) . '</div>';
 
   return $return;
 }
@@ -128,11 +145,8 @@ function one_fourth_shortcode($atts, $content)
 {
   extract(shortcode_atts(array('last' => ''), $atts));
 
-  if ($last != '') {
-    $last = ' column-last';
-  }
-
-  $return = '<div class="column-one-fourth' . $last . '">' . remove_wpautop($content) . '</div>';
+  // Note: 'last' attribute is maintained for backward compatibility but not used
+  $return = '<div class="column-one-fourth">' . remove_wpautop($content) . '</div>';
 
   return $return;
 }
@@ -143,11 +157,8 @@ function two_fourths_shortcode($atts, $content)
 {
   extract(shortcode_atts(array('last' => ''), $atts));
 
-  if ($last != '') {
-    $last = ' column-last';
-  }
-
-  $return = '<div class="column-two-fourths' . $last . '">' . remove_wpautop($content) . '</div>';
+  // Note: 'last' attribute is maintained for backward compatibility but not used
+  $return = '<div class="column-two-fourths">' . remove_wpautop($content) . '</div>';
 
   return $return;
 }
@@ -158,11 +169,8 @@ function three_fourths_shortcode($atts, $content)
 {
   extract(shortcode_atts(array('last' => ''), $atts));
 
-  if ($last != '') {
-    $last = ' column-last';
-  }
-
-  $return = '<div class="column-three-fourths' . $last . '">' . remove_wpautop($content) . '</div>';
+  // Note: 'last' attribute is maintained for backward compatibility but not used
+  $return = '<div class="column-three-fourths">' . remove_wpautop($content) . '</div>';
 
   return $return;
 }
@@ -173,11 +181,8 @@ function one_fifth_shortcode($atts, $content)
 {
   extract(shortcode_atts(array('last' => ''), $atts));
 
-  if ($last != '') {
-    $last = ' column-last';
-  }
-
-  $return = '<div class="column-one-fifth' . $last . '">' . remove_wpautop($content) . '</div>';
+  // Note: 'last' attribute is maintained for backward compatibility but not used
+  $return = '<div class="column-one-fifth">' . remove_wpautop($content) . '</div>';
 
   return $return;
 }
@@ -188,11 +193,8 @@ function two_fifths_shortcode($atts, $content)
 {
   extract(shortcode_atts(array('last' => ''), $atts));
 
-  if ($last != '') {
-    $last = ' column-last';
-  }
-
-  $return = '<div class="column-two-fifths' . $last . '">' . remove_wpautop($content) . '</div>';
+  // Note: 'last' attribute is maintained for backward compatibility but not used
+  $return = '<div class="column-two-fifths">' . remove_wpautop($content) . '</div>';
 
   return $return;
 }
@@ -203,11 +205,8 @@ function three_fifths_shortcode($atts, $content)
 {
   extract(shortcode_atts(array('last' => ''), $atts));
 
-  if ($last != '') {
-    $last = ' column-last';
-  }
-
-  $return = '<div class="column-three-fifths' . $last . '">' . remove_wpautop($content) . '</div>';
+  // Note: 'last' attribute is maintained for backward compatibility but not used
+  $return = '<div class="column-three-fifths">' . remove_wpautop($content) . '</div>';
 
   return $return;
 }
@@ -218,11 +217,8 @@ function four_fifths_shortcode($atts, $content)
 {
   extract(shortcode_atts(array('last' => ''), $atts));
 
-  if ($last != '') {
-    $last = ' column-last';
-  }
-
-  $return = '<div class="column-four-fifths' . $last . '">' . remove_wpautop($content) . '</div>';
+  // Note: 'last' attribute is maintained for backward compatibility but not used
+  $return = '<div class="column-four-fifths">' . remove_wpautop($content) . '</div>';
 
   return $return;
 }

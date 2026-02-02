@@ -13,6 +13,8 @@ Theme Name: Blue Sky Real Estate PA 2025
   --body-font: "Barlow", sans-serif;
   --border-gray: #C9C9C9;
   --text-color: #212529;
+  --swiper-navigation-top-offset: -999px;
+  --swiper-navigation-sides-offset: 1rem;
 }
 
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{font-size:100%;font:inherit;padding:0;border:0;margin:0;vertical-align:baseline}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}.sticky{}.bypostauthor{}.wp-caption{}.wp-caption-text{}.gallery-caption{}.alignright{}.alignleft{}.aligncenter{}
@@ -23,14 +25,9 @@ body {
   font-size: 16px;
   font-family: var(--body-font);
   color: var(--text-color);
-}
-   
-a {
-  font-size: 90%;
-}
+}ƒ
 
 p {
-font-size: 90%;
 line-height: 145%;
 margin-bottom: 15px;
 }
@@ -439,31 +436,10 @@ background-color: #6E9ED5;
 
 /* Featured Slider Home Page Stylings
 ---------------------------------------------------------------*/
-.page-links a {
-  background-image: none !important;
-  display: block !important;
-  float: left;
-  height: auto !important;
-  padding-top: 0 !important;
-  width: auto!important;
-  text-decoration: none;
-  color: #3769b1;
-  padding: 10px 5px !important;
-  display: block;
-}
-
-.page-links br {
-display: none;
-}
-
-.page-links a:hover {
-color: #ff6600;
-text-decoration: underline;
-}
 
 .featured-slider-container {
   max-width: 450px;
-  margin: 2rem auto;
+  margin: 0 auto 2rem auto;
   overflow: visible;
 }
 
@@ -494,6 +470,12 @@ text-decoration: underline;
   width: 100%;
   object-fit: cover;
   border-radius: 6px;
+  border: 1px solid var(--sky-blue);
+  transition: border-color 0.1s ease;
+}
+
+.swiper .property-image-wrapper img:hover {
+  border-color: var(--link-color);
 }
 
 .swiper .property-content-wrapper {
@@ -521,6 +503,11 @@ text-decoration: underline;
   font-weight: bold;
   color: var(--link-color);
   margin-bottom: 0.5rem;
+}
+
+.swiper .property-content-wrapper .property-title a {
+  text-decoration: underline;
+  transition: color 0.15s ease;
 }
 
 .swiper .property-content-wrapper .property-price {
@@ -558,6 +545,25 @@ text-decoration: underline;
   opacity: 1;
   height: 10px;
   width: 10px;
+}
+
+.swiper-button-next, .swiper-button-prev {
+  background-color: color(srgb 0.22 0.41 0.69 / 0.25);
+  padding: 0.5rem .5rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+  pointer-events: initial;
+}
+
+.swiper-button-next:hover, .swiper-button-prev:hover {
+  background-color: var(--link-color);
+}
+
+.swiper-button-next svg, .swiper-button-prev svg {
+  color: #ffffff;
 }
 
 .featured-slider #wpv-view-layout-1 {	
@@ -690,7 +696,7 @@ font-size: 85%;
 
 .advancedsearch {
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 0;
   display: flex;
@@ -723,8 +729,11 @@ font-size: 85%;
   margin-bottom: 1rem;
 }
 
+.advancedsearch .text-search-wrapper form {
+  flex-grow: 1;
+}
+
 .advancedsearch .text-search-wrapper .search-inputs {
-  height: 56px;
   gap: 0;
 }
 
@@ -733,8 +742,6 @@ font-size: 85%;
 }
 
 .advancedsearch .text-search-wrapper .search-inputs button {
-  height: 56px;
-  width: 56px;
   border-radius: 0px 6px 6px 0px;
 }
 
@@ -743,7 +750,7 @@ font-size: 85%;
   gap: 1rem;
   align-items: center;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .advancedsearch .filters-search-wrapper .search-category {
@@ -781,6 +788,23 @@ font-size: 85%;
   }
 }
 
+/* Homepage Content Stylings */
+
+.homepage-links-container ul {
+  margin-bottom: 2rem;
+}
+
+.homepage-links-container ul:last-child {
+  margin-bottom: 0;
+}
+
+.homepage-links-container li {
+  margin-bottom: .5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
 /* Page/Post Article Stylings
 ---------------------------------------------------------------*/
 
@@ -813,7 +837,7 @@ span.edit-link {
 
 #content h2 {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: var(--dark-blue);
 }
 
@@ -862,8 +886,13 @@ span.edit-link {
 }
 
 .entry-content p {
-  font-size: 1rem;
-  margin-bottom: 20px;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  line-height: 1.4;
+}
+
+.entry-content a {
+  text-decoration: underline;
 }
 
 .entry-content img {
@@ -882,25 +911,33 @@ margin-left: 20px;
 }
 
 .entry-content ul {
-  list-style: none;
-  margin-bottom: 20px;
-  margin-left: 20px;
+  list-style: initial;
+  margin-left: 10px;
+  padding-left: 10px;
+  text-indent: -3px;
+}
+
+/* Sidebar Stylings */
+
+.widget-container {
+  border: 1px solid var(--border-gray);
+  padding: .5rem;
+  border-radius: 6px;
+  background-color: color(srgb 0.6 0.74 0.87 / 0.1);
 }
 
 aside#sidebar {
-  width: 32%;
-  float: left;
-}
-
-aside#gallery {
-  width: 320px;
-  float: left;
+  width: 100%;
+  max-width: 300px;
 }
 
 aside#sidebar h3 {
-  font-size: 120%;
+  font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 3px;
+  margin-bottom: 1rem;
+  color: var(--dark-blue);
+  border-bottom: 1px solid var(--border-gray);
+  padding-bottom: 0.5rem;
 }
 
 li#text-4 {
@@ -919,10 +956,10 @@ li#text-4 {
 }
 
 aside#sidebar .textwidget ul  {
-list-style: disc;
-    margin-bottom: 15px;
-    margin-left: 15px;
-    list-style-position: outside;
+  list-style: disc;
+  margin-bottom: 15px;
+  margin-left: 15px;
+  list-style-position: outside;
 }
 
 aside#sidebar .textwidget ul li {
@@ -930,22 +967,13 @@ aside#sidebar .textwidget ul li {
     margin-bottom: 5px;
 }
 
-aside#sidebar .textwidget {
-  background-color: #e5e7e8;
-  padding: 20px;
-  border-top: 6px solid #93a5b9;
-    -moz-box-shadow:
-    0px 1px 3px rgba(000,000,000,0.3);
-  -webkit-box-shadow:
-    0px 1px 3px rgba(000,000,000,0.3);
-  box-shadow:
-    0px 1px 3px rgba(000,000,000,0.3);
-  margin-bottom: 30px;
+aside#sidebar .textwidget ul.contact-info {
+  list-style: none;
+  margin: 0;
 }
 
-
-aside#sidebar .signimg {
-  float: right;
+aside#sidebar .textwidget ul.contact-info li {
+  margin-bottom: 0.75rem;
 }
 
 aside#sidebar .textwidget img.contacticon {
@@ -1485,13 +1513,48 @@ background-image: url('images/arrows.png') !important;
 
   .featured-slider-container {
     max-width: 100%;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--border-gray);
-    border-image: linear-gradient(to right, transparent, var(--border-gray), transparent) 1;
   }
 
   .swiper .swiper-slide {
     opacity: 1;
+  }
+
+  /* Sidebar Styles */
+
+  .content-sidebar-wrapper {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  aside#sidebar {
+    min-width: 250px;
+    max-width: 600px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .advancedsearch {
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .advancedsearch h4 {
+    white-space: nowrap;
+  }
+
+  .advancedsearch .text-search-wrapper,
+  .advancedsearch .filters-search-wrapper {
+    margin-bottom: 0;
+  }
+
+  .advancedsearch .text-search-wrapper {
+    flex: 2 1 0;
+  }
+
+  .advancedsearch .filters-search-wrapper {
+    flex: 3 1 0;
   }
 }
 
@@ -1563,3 +1626,4 @@ background-image: url('images/arrows.png') !important;
 .search-category .go input[type="submit"]:hover {
   background: var(--link-hover-color);
 }
+

@@ -21,19 +21,20 @@
 <div class="page-content-wrapper">
   <h1 class="entry-title"><?php the_title(); ?></h1>
 
-  <article id="content">
-    <?php the_post(); ?>
+  <div class="content-sidebar-wrapper">
+    <article id="content">
+      <?php the_post(); ?>
 
-    <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+      <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-      <div class="entry-content">
-        <?php the_content(); ?>
-        <?php wp_link_pages('before=<div class="page-link">' . __('Pages:', 'blankslate') . '&after=</div>') ?>
-        <?php edit_post_link(__('Edit', 'blankslate'), '<span class="edit-link">', '</span>') ?>
+        <div class="entry-content">
+          <?php the_content(); ?>
+          <?php wp_link_pages('before=<div class="page-link">' . __('Pages:', 'blankslate') . '&after=</div>') ?>
+        </div>
       </div>
-    </div>
-  </article>
-  <?php get_sidebar(); ?>
+    </article>
+    <?php get_sidebar(); ?>
+  </div>
 </div> <!-- PAGE CONTENT WRAPPER -->
 
 <?php get_footer(); ?>

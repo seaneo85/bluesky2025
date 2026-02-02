@@ -16,6 +16,10 @@ const swiper = new Swiper('.swiper', {
   spaceBetween: 25,
   lazy: true,
   slidesPerView: 1,
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
   pagination: {
     el: '.swiper-pagination',
     clickable: true,
@@ -29,3 +33,20 @@ const swiper = new Swiper('.swiper', {
     }
   }
 });
+
+const swiperImageWrapper = document.querySelectorAll('.property-image-wrapper');
+const swiperNavigationButtons = document.querySelectorAll('.swiper-button-next, .swiper-button-prev');
+
+// set the top position of navigation buttons based on image height
+function setSwiperNavButtonPosition() {
+  swiperImageWrapper.forEach(wrapper => {
+    const imageHeight = wrapper.offsetHeight;
+    const navButtonTop = imageHeight / 2;
+    swiperNavigationButtons.forEach(button => {
+      button.style.top = `${navButtonTop}px`;
+    });
+  });
+}
+
+window.addEventListener('load', setSwiperNavButtonPosition);
+window.addEventListener('resize', setSwiperNavButtonPosition);
