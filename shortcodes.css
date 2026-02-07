@@ -1,23 +1,25 @@
 /* Button Styling
 ------------------------------------------------------------ */
 .button {
-    cursor: pointer;
-    border-radius: 8px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-    box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    display: inline-block;
-    margin-bottom: 10px;
-    outline: none;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0 1px 1px rgba(0,0,0,.5);
-  border: solid 1px #b7b7b7 !important;
+  background: var(--link-color);
+  font-size: 1rem;
+  text-shadow: none;
+  line-height: 1.4;
+  border-radius: 6px;
+  box-shadow: none;
+  border: 0;
+  display: block;
+  font-family: inherit;
+  padding: 0.75rem 1rem;
+  color: white;
+  transition: .1s ease-in-out;
 }
 
-.button:hover { text-decoration: none; }
+.button:hover {
+  text-decoration: none;
+  background-color: var(--link-hover-color);
+  color: white;
+}
 
 .button:active {
     position: relative;
@@ -25,17 +27,10 @@
 }
 
 .button-large {
-    font: 16px Arial, Helvetica, sans-serif;
     padding: 8px 32px 9px;
 }
 
-.button-medium {
-    font: 12px Arial, Helvetica, sans-serif;
-    padding: 6px 24px 7px;
-}
-
 .button-small {
-    font: 11px Arial, Helvetica, sans-serif;
     padding: 3px 8px 4px;
 }
 
@@ -64,29 +59,6 @@
     background: -moz-linear-gradient(top,  #000,  #444);
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#666666');
 }
-
-/* Blue
-
-.button-blue {
-    color: #d9eef7 !important;
-    border: solid 1px #0076a3;
-    background: #0095cd;
-    background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
-    background: -moz-linear-gradient(top,  #00adee,  #0078a5);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
-}
-.button-blue:hover {
-    background: #007ead !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
-    background: -moz-linear-gradient(top,  #0095cc,  #00678e);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
-}
-.button-blue:active {
-    color: #80bed6 !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
-    background: -moz-linear-gradient(top,  #0078a5,  #00adee);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
-} */
 
 /* Green
 ------------------------------------------------------------ */
@@ -253,32 +225,6 @@
     background: -webkit-gradient(linear, left top, left bottom, from(#feda48), to(#feda48));
     background: -moz-linear-gradient(top, #feda48, #feda48);
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#feda48', endColorstr='#feda48');
-}
-
-/* Allegheny Blue (default)
---------------------------------------------------------------*/
-
-.button-blue {
-    color: white !important;
-    border: none !important;
-    background: #fff;
-    background: -webkit-gradient(linear,left top, left bottom, from(#4D7AAA), to(#002144));
-  background: -moz-linear-gradient(center top , #4D7AAA, #002144) repeat scroll 0 0 transparent;
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4D7AAA', endColorstr='#002144');
-  text-shadow: none;
-  
-}
-.button-blue:hover {
-    background: #4D7AAA !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(#4D7AAA), to(#4D7AAA));
-    background: -moz-linear-gradient(top, #4D7AAA, #4D7AAA);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4D7AAA', endColorstr='#4D7AAA');
-}
-.button-blue:active {
-    color: #4D7AAA !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(#eac943), to(#002144));
-    background: -moz-linear-gradient(top, #eac943, #002144);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#eac943', endColorstr='#002144');
 }
 
 /* Box Styling

@@ -30,7 +30,7 @@ function button_shortcode($atts, $content = null)
 
   extract(shortcode_atts(array(
     'size' => 'medium',
-    'color' => 'gold',
+    'color' => 'blue',
     'url' => '#',
     'target' => '_self',
     'rel' => ''

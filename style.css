@@ -129,22 +129,6 @@ border: 1px solid #93A5B9;
   border: 0;
 }
 
-.button {
-  background-color: #95b44a;
-  color: white;
-  border: 0;
-  padding: 8px 15px;
-  border-radius: 6px;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, .2), inset -2px -2px 1px rgba(109, 130, 60, .3);
-  transition: background-color 0.3s ease;
-  text-decoration: none;
-}
-
-.button:hover {
-  background-color: #b1d06a;
-  cursor: pointer;
-}
-
 .page-content-wrapper {
   padding: 1rem;
 }
@@ -555,7 +539,7 @@ background-color: #6E9ED5;
 }
 
 .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
-  pointer-events: initial;
+  pointer-events: initial !important;
 }
 
 .swiper-button-next:hover, .swiper-button-prev:hover {
@@ -921,7 +905,7 @@ margin-left: 20px;
 
 .widget-container {
   border: 1px solid var(--border-gray);
-  padding: .5rem;
+  padding: 1rem;
   border-radius: 6px;
   background-color: color(srgb 0.6 0.74 0.87 / 0.1);
 }
@@ -940,43 +924,49 @@ aside#sidebar h3 {
   padding-bottom: 0.5rem;
 }
 
-li#text-4 {
-    position: relative;
+aside#sidebar ul.sidebar-widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-#text-4 .textwidget .widget-title {
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-}
-
-#text-4 .textwidget li {
-  font-weight: 600
-}
-
-aside#sidebar .textwidget ul  {
+aside#sidebar .textwidget ul,
+aside#sidebar ul.wp-block-list {
   list-style: disc;
-  margin-bottom: 15px;
-  margin-left: 15px;
+  margin-left: 1rem;
+  margin-bottom: 1.5rem;
   list-style-position: outside;
 }
 
-aside#sidebar .textwidget ul li {
-    padding-left: 0px;
-    margin-bottom: 5px;
+aside#sidebar .textwidget ul:li:last-child,
+aside#sidebar ul.wp-block-list li:last-child,
+aside#sidebar .textwidget ul.contact-info li:last-child {
+  margin-bottom: 0;
 }
 
-aside#sidebar .textwidget ul.contact-info {
+
+aside#sidebar .textwidget ul li,
+aside#sidebar ul.wp-block-list li {
+    padding-left: 0px;
+    margin-bottom: .5rem;
+    line-height: 1.4;
+}
+
+aside#sidebar .textwidget ul li:last-child,
+aside#sidebar ul.wp-block-list li:last-child {
+ margin-bottom: 0;
+}
+
+aside#sidebar ul.contact-info {
   list-style: none;
   margin: 0;
 }
 
-aside#sidebar .textwidget ul.contact-info li {
+aside#sidebar ul.contact-info li {
   margin-bottom: 0.75rem;
 }
 
-aside#sidebar .textwidget img.contacticon {
+aside#sidebar ul.contact-info img.contacticon {
 float: left;
 margin: 1px 5px 0px 0;
 border: 0;

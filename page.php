@@ -33,7 +33,13 @@
         </div>
       </div>
     </article>
-    <?php get_sidebar(); ?>
+    <?php if ( is_front_page() ) : ?>
+			<?php get_sidebar('home'); ?>
+		<?php elseif ( is_page('hunting-properties-2')) : ?>
+			<?php get_sidebar('hunting'); ?>
+		<?php else : ?>	
+			<?php get_sidebar(); ?>
+		<?php endif; ?>	
   </div>
 </div> <!-- PAGE CONTENT WRAPPER -->
 

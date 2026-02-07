@@ -193,6 +193,24 @@ function bluesky_widgets_init()
     'before_title' => '<h3 class="widget-title">',
     'after_title' => '</h3>',
   ));
+
+  register_sidebar(array(
+    'name' => 'Hunting Properties Sidebar',
+    'id' => 'hunting-properties-sidebar',
+    'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
+    'after_widget' => '</li>',
+    'before_title' => '<h3 class="widget-title">',
+    'after_title' => '</h3>',
+  ));
+
+  register_sidebar(array(
+    'name' => 'Homepage Sidebar',
+    'id' => 'home-sidebar',
+    'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
+    'after_widget' => '</li>',
+    'before_title' => '<h3 class="widget-title">',
+    'after_title' => '</h3>',
+  ));
 }
 add_action('widgets_init', 'bluesky_widgets_init');
 
@@ -360,6 +378,157 @@ function bluesky_debug_property_types()
   }
 }
 add_action('wp_head', 'bluesky_debug_property_types');
+
+/**
+ * Shortcode: [property_type_links base="/YOUR-LISTINGS-PAGE/" param="listing-type" separator=", "]
+ * - Toolset checkbox field stores integer IDs (e.g. 5, 10, 13)
+ * - Converts IDs -> slugs using bluesky_get_property_type_db_mapping()
+ * - Uses labels from bluesky_get_property_types()
+ * - Outputs comma-separated links to base + ?listing-type=slug
+ */
+add_shortcode('property_type_links', function($atts) {
+    $atts = shortcode_atts([
+        'base'      => '/YOUR-LISTINGS-PAGE/',
+        'param'     => 'listing-type',
+        'separator' => ', ',
+        'meta_key'  => 'wpcf-property-type-s',
+        'skip_unknown' => true, // set false to show unknown IDs as-is
+    ], $atts);
+
+    $post_id = get_the_ID();
+    if (!$post_id) return '';
+
+    $raw = get_post_meta($post_id, $atts['meta_key'], true);
+    if (empty($raw)) return '';
+
+    // Normalize meta to a flat list of scalar values (IDs)
+    $ids = [];
+    $push_id = function($item) use (&$ids) {
+        if (is_scalar($item)) {
+            $s = trim((string)$item);
+            if ($s !== '') $ids[] = $s;
+            return;
+        }
+        if (is_array($item)) {
+            if (isset($item['value']) && is_scalar($item['value'])) {
+                $s = trim((string)$item['value']);
+                if ($s !== '') $ids[] = $s;
+                return;
+            }
+            if (isset($item[0]) && is_scalar($item[0])) {
+                $s = trim((string)$item[0]);
+                if ($s !== '') $ids[] = $s;
+                return;
+            }
+        }
+    };
+
+    if (is_array($raw)) {
+        foreach ($raw as $item) $push_id($item);
+    } else {
+        $raw = trim((string)$raw);
+        foreach (array_map('trim', explode(',', $raw)) as $item) $push_id($item);
+    }
+
+    if (!$ids) return '';
+
+    // slug => db_id
+    $slug_to_id = function_exists('bluesky_get_property_type_db_mapping')
+        ? bluesky_get_property_type_db_mapping()
+        : [];
+
+    if (!$slug_to_id) return '';
+
+    // db_id => slug
+    $id_to_slug = array_flip($slug_to_id);
+
+    // slug => label
+    $slug_to_label = function_exists('bluesky_get_property_types')
+        ? bluesky_get_property_types()
+        : [];
+
+    $base_url = home_url($atts['base']);
+
+    $links = [];
+    foreach ($ids as $id) {
+        if (!isset($id_to_slug[$id])) {
+            if (!$atts['skip_unknown']) {
+                // Fall back: show ID and pass it through (not recommended if filter expects slugs)
+                $url = add_query_arg($atts['param'], $id, $base_url);
+                $links[] = sprintf('<a href="%s">%s</a>', esc_url($url), esc_html($id));
+            }
+            continue;
+        }
+
+        $slug = $id_to_slug[$id];
+
+        // Use your label map; fall back to prettified slug
+        $text = $slug_to_label[$slug] ?? ucwords(str_replace('-', ' ', $slug));
+
+        $url = add_query_arg($atts['param'], $slug, $base_url);
+
+        $links[] = sprintf('<a href="%s">%s</a>', esc_url($url), esc_html($text));
+    }
+
+    return implode($atts['separator'], $links);
+});
+
+/**
+ * Shortcode: [county_link base="/YOUR-LISTINGS-PAGE/" param="county" meta_key="wpcf-county" icon_class="fas fa-map-marker-alt"]
+ * Outputs a single linked county label using bluesky_get_counties() mapping.
+ */
+add_shortcode('county_link', function($atts) {
+    $atts = shortcode_atts([
+        'base'       => '/listings/',
+        'param'      => 'county',            // <-- change to your actual filter param if different
+        'meta_key'   => 'wpcf-county',        // <-- change to your Toolset select field meta key
+        'icon_class' => '',                  // optional
+    ], $atts);
+
+    $post_id = get_the_ID();
+    if (!$post_id) return '';
+
+    $raw = get_post_meta($post_id, $atts['meta_key'], true);
+    if ($raw === '' || $raw === null) return '';
+
+    $raw = is_scalar($raw) ? trim((string)$raw) : '';
+    if ($raw === '') return '';
+
+    $counties = function_exists('bluesky_get_counties') ? bluesky_get_counties() : [];
+    if (!$counties) return '';
+
+    // Determine slug + label
+    if (isset($counties[$raw])) {
+        // Stored value is already the slug (ideal)
+        $slug  = $raw;
+        $label = $counties[$raw];
+    } else {
+        // Stored value might be a label like "Clearfield" or something else
+        $candidate = sanitize_title($raw); // "Clearfield" -> "clearfield"
+        if (isset($counties[$candidate])) {
+            $slug  = $candidate;
+            $label = $counties[$candidate];
+        } else {
+            // Last resort: use slugified raw with raw as label
+            $slug  = $candidate;
+            $label = $raw;
+        }
+    }
+
+    $base_url = home_url($atts['base']);
+    $url = add_query_arg($atts['param'], $slug, $base_url);
+
+    $icon = $atts['icon_class']
+        ? sprintf('<i class="%s"></i> ', esc_attr($atts['icon_class']))
+        : '';
+
+    return sprintf('%s<a href="%s">%s</a>', $icon, esc_url($url), esc_html($label));
+});
+
+
+
+
+
 
 // ==============================================
 // INCLUDES
