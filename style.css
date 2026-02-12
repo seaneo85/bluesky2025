@@ -6,7 +6,7 @@ Theme Name: Blue Sky Real Estate PA 2025
   --link-color: #3769B1;
   --link-hover-color: #3a71bc;
   --transparent-blue: #3669b0e6;
-  --sky-blue: #6792c7;
+  --sky-blue: #6BB6FF;
   --dark-blue: #394E75;
   --sign-orange: #f60;
   --heading-font: "Barlow Semi Condensed", sans-serif;
@@ -15,17 +15,25 @@ Theme Name: Blue Sky Real Estate PA 2025
   --text-color: #212529;
   --swiper-navigation-top-offset: -999px;
   --swiper-navigation-sides-offset: 1rem;
+  --logo-width-mobile: 250px;
+  --logo-width-desktop: 300px;
+  --logo-height: 100px;
 }
 
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{font-size:100%;font:inherit;padding:0;border:0;margin:0;vertical-align:baseline}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}.sticky{}.bypostauthor{}.wp-caption{}.wp-caption-text{}.gallery-caption{}.alignright{}.alignleft{}.aligncenter{}
 
 body {
-  background: #99bddf url('images/bluesky-back.jpg');
+  background: var(--sky-blue);
+  background-image: 
+    linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 60%, var(--sky-blue) 100%),
+    url('images/bluesky-back.jpg');
   background-repeat: repeat-x;
   font-size: 16px;
   font-family: var(--body-font);
   color: var(--text-color);
-}ƒ
+  background-size: auto 500px;
+  background-position: top;
+}
 
 p {
 line-height: 145%;
@@ -107,7 +115,7 @@ border: 1px solid #93A5B9;
 .content-container {
   margin: 0 auto;
   width: 100%;
-  max-width: 1060px;
+  max-width: 1200px;
   padding: 0 1rem;
   box-sizing: border-box;
 }
@@ -149,36 +157,36 @@ header div.header-container {
 
 header .content-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1rem;
 }
 
 div#wrapper {
   margin: 0 auto;
   overflow: hidden;
   width: 100%;
-  max-width: 1060px;
+  max-width: 1200px;
   box-sizing: border-box;
   padding: 0;
 }
 
 #logo-container {
-  width: auto;
+  width: var(--logo-width-mobile);
   display: flex;
   justify-content: center;
-  max-width: 370px;
 }
 
 #logo-container a.logo {
   display: block;
-  height: 100px;
-  width: 100%;
+  height: var(--logo-height);
+  width: var(--logo-width-mobile);
 }
 
 #logo-container a.logo img {
-  height: 100px;
-  width: auto;
+  height: var(--logo-height);
+  width: var(--logo-width-mobile);
 }
 
 #search {
@@ -402,15 +410,14 @@ background-color: #6E9ED5;
 ---------------------------------------------------------------*/
 
 #container {
-  clear: both;
   background-color: white;
   -webkit-border-radius: 10px;
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);
   -moz-box-shadow:    0px 0px 5px rgba(50, 50, 50, 0.75);
   box-shadow:         0px 0px 5px rgba(50, 50, 50, 0.75);
-  padding: 20px;
-  margin: 2rem 0;
+  padding: 1rem;
+  margin: 1rem;
 }
 
 /* Featured Slider Home Page Stylings
@@ -757,11 +764,6 @@ span.edit-link {
   width: 100%;
 }
 
-#content {
-  flex: 3;
-  max-width: 66%;
-}
-
 #content article {
   margin-bottom: 2rem;
   padding-bottom: 2rem;
@@ -793,8 +795,7 @@ span.edit-link {
 #content .post-display-meta ul {
   list-style: none;
   padding: 0;
-  margin: 0 0 1rem 0;
-  
+  margin: 0;
 }
 
 #content .post-display-meta ul li {
@@ -1455,6 +1456,15 @@ background-image: url('images/arrows.png') !important;
     z-index: -1;
   }
 
+  nav#top-nav ul li {
+    border: none;
+    padding: 0;
+  }
+
+  nav#top-nav ul li:first-child {
+    border: none;
+  }
+
   nav#top-nav ul li a {
     background-color: transparent;
     color: white;
@@ -1477,6 +1487,12 @@ background-image: url('images/arrows.png') !important;
   .swiper .swiper-slide {
     opacity: 1;
   }
+  
+  #container {
+    /* size comes from the homepage image slider distance between slides, so the container padding matches */
+    padding: 20px;
+    margin: 2rem 0;
+  }
 
   /* Sidebar Styles */
 
@@ -1484,6 +1500,11 @@ background-image: url('images/arrows.png') !important;
     display: flex;
     gap: 2rem;
     align-items: flex-start;
+  }
+
+  .content-sidebar-wrapper #content {
+    flex: 3;
+    max-width: calc(100% - 300px);
   }
 
   aside#sidebar {
@@ -1584,5 +1605,125 @@ background-image: url('images/arrows.png') !important;
 
 .search-category .go input[type="submit"]:hover {
   background: var(--link-hover-color);
+}
+
+/* Pagination Styles
+---------------------------------------------------------------*/
+
+.navigation.pagination {
+  margin: 2rem 0;
+  text-align: center;
+  clear: both;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.nav-links .page-numbers {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 8px;
+  background: white;
+  color: var(--link-color);
+  text-decoration: none;
+  border: 2px solid var(--border-gray);
+  border-radius: 4px;
+  font-weight: 600;
+  font-family: var(--body-font);
+  transition: all 0.3s ease;
+}
+
+.nav-links .page-numbers:hover,
+.nav-links .page-numbers:focus {
+  background: var(--link-color);
+  color: white;
+  border-color: var(--link-color);
+  text-decoration: none;
+}
+
+.nav-links .page-numbers.current {
+  background: var(--link-color);
+  color: white;
+  border-color: var(--link-color);
+  cursor: default;
+}
+
+.nav-links .page-numbers.prev,
+.nav-links .page-numbers.next {
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.nav-links .page-numbers.dots {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  cursor: default;
+}
+
+.nav-links .page-numbers.dots:hover {
+  background: transparent;
+  color: var(--text-color);
+}
+
+.screen-reader-text {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+}
+
+/* Header responsive layout - horizontal at 400px+ */
+@media (min-width: 400px) {
+  header .content-container {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+
+/* Logo responsive sizing */
+@media (min-width: 480px) {
+  #logo-container {
+    width: var(--logo-width-desktop);
+  }
+  
+  #logo-container a.logo {
+    width: var(--logo-width-desktop);
+  }
+  
+  #logo-container a.logo img {
+    width: var(--logo-width-desktop);
+  }
+}
+
+/* Mobile responsive pagination */
+@media (max-width: 768px) {
+  .nav-links {
+    gap: 0.25rem;
+  }
+  
+  .nav-links .page-numbers {
+    min-width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+  
+  .nav-links .page-numbers.prev,
+  .nav-links .page-numbers.next {
+    padding: 0 8px;
+    font-size: 12px;
+  }
 }
 

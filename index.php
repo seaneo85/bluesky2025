@@ -29,21 +29,45 @@ if (!empty($current_search)) {
 <div class="page-content-wrapper">
 	<h1 class="page-title"><?php echo $page_title; ?></h1>
 
-	<div class="content-sidebar-wrapper">
-		<div id="content">
-			<?php while ( have_posts() ) : the_post() ?>
+	<?php
+	// Display pagination at top (only if there are multiple pages)
+	global $wp_query;
+	if ($wp_query->max_num_pages > 1) {
+		$pagination_args = array(
+			'mid_size' => 2,
+			'prev_text' => '&laquo; Previous',
+			'next_text' => 'Next &raquo;',
+			'screen_reader_text' => 'Posts navigation',
+		);
+		the_posts_pagination($pagination_args);
+	}
+	?>
 
-				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-					<?php
-					// Use the post_display shortcode to show post details
-					echo do_shortcode('[post_display show_title="true" title_tag="h2" wrapper="div" class="listing-wrapper" show_meta="true"]');
-					?>
-				</article>
-			
-			<?php endwhile; ?>
-		</div> <!-- CONTENT -->
+	<main id="content">
+		<?php while ( have_posts() ) : the_post() ?>
 
-		<?php // get_sidebar('Primary Widget Area'); ?>
-	</div>
+			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+				<?php
+				// Use the post_display shortcode to show post details
+				echo do_shortcode('[post_display show_title="true" title_tag="h2" wrapper="div" class="listing-wrapper" show_meta="true"]');
+				?>
+			</article>
+		
+		<?php endwhile; ?>
+
+		<?php
+		// Display pagination
+		$pagination_args = array(
+			'mid_size' => 2,
+			'prev_text' => '&laquo; Previous',
+			'next_text' => 'Next &raquo;',
+			'screen_reader_text' => 'Posts navigation',
+		);
+		the_posts_pagination($pagination_args);
+		?>
+
+	</main> <!-- CONTENT -->
+
+	<?php // get_sidebar('Primary Widget Area'); ?>
 </div> <!-- PAGE CONTENT WRAPPER -->
 <?php get_footer(); ?>
