@@ -43,7 +43,7 @@ if (!empty($current_search)) {
 			<?php endwhile; ?>
 		</div> <!-- CONTENT -->
 
-		<?php get_sidebar('Primary Widget Area'); ?>
+		<?php // get_sidebar('Primary Widget Area'); ?>
 	</div>
 </div> <!-- PAGE CONTENT WRAPPER -->
 <?php get_footer(); ?>

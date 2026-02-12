@@ -1,3 +1,5 @@
+// Mobile Menu Toggle
+
 const mobileMenuButton = document.getElementById('menu-toggle');
 const navMenu = document.getElementById('nav-toggle-container');
 const navOverlay = document.getElementById('top-nav')
@@ -12,7 +14,9 @@ navOverlay.addEventListener('click', () => {
   }
 });
 
-const swiper = new Swiper('.swiper', {
+// Home Page Featured Slider
+
+const swiper = new Swiper('.swiper.featured-slider', {
   spaceBetween: 25,
   lazy: true,
   slidesPerView: 1,
@@ -50,3 +54,19 @@ function setSwiperNavButtonPosition() {
 
 window.addEventListener('load', setSwiperNavButtonPosition);
 window.addEventListener('resize', setSwiperNavButtonPosition);
+
+// Listing Page Slider
+
+const listingPageSlider = new Swiper('.listing-page-swiper.swiper', {
+  spaceBetween: 10,
+  lazy: true,
+  slidesPerView: 1,
+  navigation: {
+    nextEl: '.listing-page-swiper .swiper-button-next',
+    prevEl: '.listing-page-swiper .swiper-button-prev',
+  },
+  pagination: {
+    el: '.listing-page-swiper .swiper-pagination',
+    clickable: true,
+  }
+});

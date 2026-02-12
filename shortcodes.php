@@ -248,7 +248,8 @@ function post_display_shortcode($atts, $content = null)
     'title_tag' => 'h2',
     'wrapper' => 'div',
     'class' => 'post-display',
-    'show_meta' => 'false'
+    'show_meta' => 'false',
+    'show_excerpt' => 'false'
   ), $atts));
 
   // Ensure we're in the loop
@@ -321,7 +322,7 @@ function post_display_shortcode($atts, $content = null)
     $output .= '</div>'; // .post-display-meta
   }
 
-    if ($excerpt) {
+    if ($show_excerpt === 'true' && $excerpt) {
       // Ensure excerpt is wrapped in paragraph tags
       $output .= '<p class="post-display-excerpt">' . wp_kses_post($excerpt) . '</p>';
     }

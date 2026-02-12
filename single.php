@@ -1,47 +1,26 @@
 <?php get_header(); ?>
 
-<!-- POST -->
+<!-- SINGLE.PHP -->
 <?php include('advanced-search.php'); ?>
+
+
+<div class="page-content-wrapper">
 	<h1 class="entry-title"><?php the_title(); ?></h1>
-	
-	
 
-<div id="property-image-container">
+	<div class="content-sidebar-wrapper">
+		<div id="content">
+			<?php while ( have_posts() ) : the_post() ?>
 
-
-
-	
-
-</div>
-
-
-
-<article id="content">
-
-
-
-	<?php the_post(); ?>
-	
-	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-
-		
-	
-	
-		<div class="entry-content">
-			<?php echo do_shortcode('[wpv-post-body view_template="Single Listing Page"]'); ?>
+				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+					<div class="entry-content">
+						<?php echo do_shortcode('[wpv-post-body view_template="Single Listing Page"]'); ?>
+					</div>
+				</article>
 			
-			
-			<?php wp_link_pages('before=<div class="page-link">' . __( 'Pages:', 'blankslate' ) . '&after=</div>') ?>
-		</div>
-	
-	</div><!-- post-ID -->
-	
+			<?php endwhile; ?>
+		</div> <!-- CONTENT -->
 
-	
-</article>
-<aside id="gallery">
-	
-</aside>
-
-<?php get_sidebar(); ?>
+		<?php get_sidebar('Primary Widget Area'); ?>
+	</div>
+</div> <!-- PAGE CONTENT WRAPPER -->
 <?php get_footer(); ?>

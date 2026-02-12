@@ -1,6 +1,6 @@
 /* Button Styling
 ------------------------------------------------------------ */
-.button {
+a.button {
   background: var(--link-color);
   font-size: 1rem;
   text-shadow: none;
@@ -13,6 +13,7 @@
   padding: 0.75rem 1rem;
   color: white;
   transition: .1s ease-in-out;
+  text-decoration: none;
 }
 
 .button:hover {

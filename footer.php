@@ -1,20 +1,20 @@
-			<br clear="all"></div> <!--container-->
+</div> <!--container-->
 
-			<footer>
-			
-				<nav>
-					<?php wp_nav_menu( array( 'theme_location' => 'main-menu' ) ); ?>
-				</nav>
-				
-				<p id="copyright">
-				&copy; <?php echo date("Y") ?> <?php bloginfo( 'name' ) ?>. All Rights Reserved.
-				</p>
-			</footer>
+<footer>
 
-		</div> <!--wrapper-->
+	<nav>
+		<?php wp_nav_menu( array( 'theme_location' => 'main-menu' ) ); ?>
+	</nav>
+	
+	<p id="copyright">
+	&copy; <?php echo date("Y") ?> <?php bloginfo( 'name' ) ?>. All Rights Reserved.
+	</p>
+</footer>
 
-		<?php wp_footer(); ?>
-		
-	</body>
+</div> <!--wrapper-->
+
+<?php wp_footer(); ?>
+
+</body>
 
 </html>
