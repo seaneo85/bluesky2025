@@ -7,11 +7,9 @@
 <?php if (is_front_page()) { ?>
   <div class="featured-slider-container">
     <h2 class="sr-only">Featured Properties</h2>
-
     <?php
-    $slider = array(
-      "id" => "8961",
-    );
+    // featured properties slider shortcode attributes:
+    $slider = ["id" => "8961"];
     echo (render_view($slider)); ?>
   </div>
 
