@@ -258,7 +258,7 @@ function post_display_shortcode($atts, $content = null)
   }
 
   $property_types = types_render_field('property-type-s', array("separator" => ", "));
-  $featured_image = types_render_field('property-image', array("size" => "large"));
+  $featured_image = types_render_field('property-image', array("size" => "large", "index" => 0));
   $price = types_render_field('property-price', array());
   $county = types_render_field('county', array());
   $address = types_render_field('property-address', array());

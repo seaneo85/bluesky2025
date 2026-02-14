@@ -12,6 +12,7 @@ Theme Name: Blue Sky Real Estate PA 2025
   --heading-font: "Barlow Semi Condensed", sans-serif;
   --body-font: "Barlow", sans-serif;
   --border-gray: #C9C9C9;
+  --border-light-gray: #eee;
   --text-color: #212529;
   --swiper-navigation-top-offset: -999px;
   --swiper-navigation-sides-offset: 1rem;
@@ -534,6 +535,28 @@ background-color: #6E9ED5;
   width: 10px;
 }
 
+/* Dynamic bullets support */
+.swiper .swiper-pagination-bullets-dynamic {
+  transform: initial !important;
+}
+
+.swiper .swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
+  height: 8px;
+  width: 8px;
+  background-color: black;
+  opacity: 0.2;
+  transition: all 0.3s ease;
+  display: inline-block;
+  margin: 0 2px;
+}
+
+.swiper .swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active {
+  background-color: var(--link-color);
+  opacity: 1;
+  height: 8px;
+  width: 8px;
+}
+
 .swiper-button-next, .swiper-button-prev {
   background-color: color(srgb 0.22 0.41 0.69 / 0.25);
   padding: 0.5rem .5rem;
@@ -759,6 +782,39 @@ font-size: 85%;
 
 /* Page/Post Article Stylings
 ---------------------------------------------------------------*/
+
+/* Listing Slider */
+.listing-page-swiper.swiper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-light-gray);
+}
+
+.listing-page-swiper.swiper .swiper-wrapper {
+  aspect-ratio: 16/9;
+}
+
+.listing-page-swiper.swiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.listing-page-swiper .swiper-slide img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: none;
+  padding: 0;
+}
+
+/* General Article Stylings */
 
 span.edit-link {
   width: 100%;

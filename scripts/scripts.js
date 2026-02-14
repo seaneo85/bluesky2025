@@ -68,5 +68,7 @@ const listingPageSlider = new Swiper('.listing-page-swiper.swiper', {
   pagination: {
     el: '.listing-page-swiper .swiper-pagination',
     clickable: true,
+    dynamicBullets: true,
+    dynamicMainBullets: 4,
   }
 });
