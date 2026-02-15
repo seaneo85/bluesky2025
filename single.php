@@ -67,7 +67,13 @@
             <div class="single-property-details">
               <?php if ($price) : ?>
                 <div class="property-price">
-                  <strong>Price:</strong> $<?php echo esc_html(number_format((float)$price)); ?>
+                  <strong>Price:</strong> $<?php echo esc_html($price); ?>
+                </div>
+              <?php endif; ?>
+
+              <?php if ($property_types) : ?>
+                <div class="property-types">
+                  <strong>Property Type:</strong> <?php echo esc_html($property_types); ?>
                 </div>
               <?php endif; ?>
 
@@ -82,12 +88,6 @@
               <?php if ($county) : ?>
                 <div class="property-county">
                   <strong>County:</strong> <?php echo esc_html($county); ?>
-                </div>
-              <?php endif; ?>
-
-              <?php if ($property_types) : ?>
-                <div class="property-types">
-                  <strong>Property Type:</strong> <?php echo esc_html($property_types); ?>
                 </div>
               <?php endif; ?>
 
@@ -132,18 +132,18 @@
                   <strong>Status:</strong> <span class="leased-status">Leased</span>
                 </div>
               <?php endif; ?>
-
-              <?php if ($google_maps_iframe) : ?>
-                <div class="property-map">
-                  <strong>Location:</strong>
-                  <div class="google-map-wrapper">
-                    <?php echo $google_maps_iframe; ?>
-                  </div>
-                </div>
-              <?php endif; ?>
             </div>
 
-            <?php echo do_shortcode('[wpv-post-body view_template="Single Listing Page"]'); ?>
+            <?php echo do_shortcode('[wpv-post-body view_template="None"]'); ?>
+
+            <?php if ($google_maps_iframe) : ?>
+              <div class="property-map">
+                <h2>Map:</h2>
+                <div class="google-map-wrapper">
+                  <?php echo $google_maps_iframe; ?>
+                </div>
+              </div>
+            <?php endif; ?>
           </div>
         </article>
       

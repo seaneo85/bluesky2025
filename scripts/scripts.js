@@ -14,6 +14,12 @@ navOverlay.addEventListener('click', () => {
   }
 });
 
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && navMenu.classList.contains('visible')) {
+    navMenu.classList.remove('visible');
+  }
+});
+
 // Home Page Featured Slider
 
 const swiper = new Swiper('.swiper.featured-slider', {

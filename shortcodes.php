@@ -249,21 +249,51 @@ function post_display_shortcode($atts, $content = null)
     'wrapper' => 'div',
     'class' => 'post-display',
     'show_meta' => 'false',
-    'show_excerpt' => 'false'
+    'show_excerpt' => 'false',
+    'post_id' => ''
   ), $atts));
 
-  // Ensure we're in the loop
-  if (!in_the_loop() || !is_object($GLOBALS['post'])) {
-    return '<!-- post_display shortcode must be used within a WordPress loop -->';
+  // Determine which post to use
+  $current_post = null;
+  if (!empty($post_id)) {
+    // Use specific post ID if provided
+    $current_post = get_post($post_id);
+    if (!$current_post) {
+      return '<!-- post_display shortcode: Invalid post ID -->';
+    }
+  } elseif (in_the_loop() && is_object($GLOBALS['post'])) {
+    // Use current loop post
+    $current_post = $GLOBALS['post'];
+  } elseif (is_object($GLOBALS['post'])) {
+    // Use global post even if not in loop
+    $current_post = $GLOBALS['post'];
+  } else {
+    return '<!-- post_display shortcode: No post context available -->';
   }
 
-  $property_types = types_render_field('property-type-s', array("separator" => ", "));
-  $featured_image = types_render_field('property-image', array("size" => "large", "index" => 0));
-  $price = types_render_field('property-price', array());
-  $county = types_render_field('county', array());
-  $address = types_render_field('property-address', array());
-  $city = types_render_field('city', array());
+  // Get the post type
+  $post_type = get_post_type($current_post);
+  
+  // Initialize variables
+  $property_types = '';
+  $featured_image = '';
+  $price = '';
+  $county = '';
+  $address = '';
+  $city = '';
   $excerpt = get_the_excerpt();
+
+  // Regular properties fields
+  $property_types = types_render_field('property-type-s', array("separator" => ", ", "post_id" => $current_post->ID));
+  $featured_image = types_render_field('property-image', array("size" => "large", "index" => 0, "post_id" => $current_post->ID));
+  $price = types_render_field('property-price', array("post_id" => $current_post->ID));
+  $county = types_render_field('county', array("post_id" => $current_post->ID));
+  $address = types_render_field('property-address', array("post_id" => $current_post->ID));
+  $city = types_render_field('city', array("post_id" => $current_post->ID));
+  $leased_date = types_render_field('leased-date', array("post_id" => $current_post->ID));
+  
+  // Get excerpt for the specific post
+  $excerpt = get_the_excerpt($current_post);
 
   $output = '';
 
@@ -274,7 +304,7 @@ function post_display_shortcode($atts, $content = null)
   // Display featured image if available
   if ($featured_image) {
     $output .= '<div class="post-display-image">';
-    $output .= '<a href="' . get_permalink() . '">';
+    $output .= '<a href="' . get_permalink($current_post) . '">';
     $output .= $featured_image;
     $output .= '</a>';
     $output .= '</div>';
@@ -284,15 +314,17 @@ function post_display_shortcode($atts, $content = null)
 
   // Display title
   if ($show_title === 'true') {
-    $title = get_the_title();
+    $title = get_the_title($current_post);
     if ($title) {
       $output .= '<' . $title_tag . ' class="post-display-title">';
-      $output .= '<a href="' . get_permalink() . '">' . esc_html($title) . '</a>';
+      $output .= '<a href="' . get_permalink($current_post) . '">' . esc_html($title) . '</a>';
       $output .= '</' . $title_tag . '>';
     }
   }
 
-  $output .= '<div class="post-display-price">$' . esc_html($price) . '</div>';
+  if ($price) {
+    $output .= '<div class="post-display-price">$' . esc_html($price) . '</div>';
+  }
 
   // Future expansion: Post meta display
   if ($show_meta === 'true') {
@@ -301,8 +333,14 @@ function post_display_shortcode($atts, $content = null)
       $output .= '<!-- Post meta will be displayed here -->';
       $output .= '<ul>';
 
+      if ( $leased_date ) {
+        $output .= '<li class="leased-status"><strong><i class="fas fa-calendar-check"></i> Leased Until: ' . esc_html($leased_date) . '</strong></li>';
+      }
+
       if ( $property_types ) {
         $output .= '<li><strong>Property Types:</strong> ' . esc_html($property_types) . '</li>';
+      } elseif ($post_type === 'hunting-properties') {
+        $output .= '<li><strong>Property Type:</strong> Hunting Property</li>';
       }
 
       if ($county) {

@@ -6,9 +6,11 @@
 
 <?php
 $page_title = 'All Listings';
+$hunting_title = 'Hunting Properties';
 $current_type = isset($_GET['listing-type']) ? sanitize_text_field($_GET['listing-type']) : '';
 $current_county = isset($_GET['county']) ? sanitize_text_field($_GET['county']) : '';
 $current_search = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
+$post_type = get_query_var('post_type');
 
 // Only show one filter at a time - priority: search, then property type, then county
 if (!empty($current_search)) {
@@ -27,44 +29,105 @@ if (!empty($current_search)) {
 ?>
 
 <div class="page-content-wrapper">
-	<h1 class="page-title"><?php echo $page_title; ?></h1>
+	<h1 class="page-title">
+		<?php if ( !have_posts() ) : ?>
+				No Listings Found:
+		<?php endif; ?>
+
+		<?php
+			if ($post_type === 'hunting-properties') :
+				$page_title = $hunting_title;
+			endif;
+
+			echo $page_title;
+		?>
+	</h1>
 
 	<?php
-	// Display pagination at top (only if there are multiple pages)
-	global $wp_query;
-	if ($wp_query->max_num_pages > 1) {
-		$pagination_args = array(
-			'mid_size' => 2,
-			'prev_text' => '&laquo; Previous',
-			'next_text' => 'Next &raquo;',
-			'screen_reader_text' => 'Posts navigation',
-		);
-		the_posts_pagination($pagination_args);
+	// Display pagination at top (only if there are multiple pages and not hunting properties)
+	if ($post_type !== 'hunting-properties') {
+		global $wp_query;
+		if ($wp_query->max_num_pages > 1) {
+			$pagination_args = array(
+				'mid_size' => 2,
+				'prev_text' => '&laquo; Previous',
+				'next_text' => 'Next &raquo;',
+				'screen_reader_text' => 'Posts navigation',
+			);
+			the_posts_pagination($pagination_args);
+		}
 	}
 	?>
 
 	<main id="content">
-		<?php while ( have_posts() ) : the_post() ?>
+		<?php 
+		// Check if this is a hunting properties archive
+		$post_type = get_query_var('post_type');
+		if ($post_type === 'hunting-properties') :
+			// Hunting properties grouped by county
+			$counties = bluesky_get_counties();
+			
+			foreach ($counties as $county_slug => $county_name) :
+				// Query hunting properties for this county
+				$county_query = new WP_Query(array(
+					'post_type' => 'hunting-properties',
+					'posts_per_page' => -1, // Get all properties for this county
+					'meta_query' => array(
+						array(
+							'key' => 'wpcf-county',
+							'value' => $county_slug,
+							'compare' => '='
+						)
+					),
+					'post_status' => 'publish'
+				));
+				
+				if ($county_query->have_posts()) : ?>
+					<section class="county-section">
+						<h2 class="county-heading"><?php echo esc_html($county_name); ?> County</h2>
+						
+						<div class="county-properties">
+							<?php while ($county_query->have_posts()) : $county_query->the_post(); ?>
+								<article id="post-<?php the_ID(); ?>" <?php post_class('county-property'); ?>>
+									<?php
+									// Use the post_display shortcode to show post details
+									echo do_shortcode('[post_display show_title="true" title_tag="h3" wrapper="div" class="listing-wrapper" show_meta="true"]');
+									?>
+								</article>
+							<?php endwhile; ?>
+						</div>
+					</section>
+				<?php 
+				endif;
+				wp_reset_postdata();
+			endforeach;
+		else :
+			// Regular listings loop
+			if ( have_posts() ) : ?>
+				<?php while ( have_posts() ) : the_post() ?>
+					<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+						<?php
+						// Use the post_display shortcode to show post details
+						echo do_shortcode('[post_display show_title="true" title_tag="h2" wrapper="div" class="listing-wrapper" show_meta="true"]');
+						?>
+					</article>
+				<?php endwhile; ?>
+			<?php else : ?>
+				<p style="font-size: 1.1rem;">We're sorry, but we currently do not have properties of this type available. Please retry your search or browse all listings.</p>
 
-			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-				<?php
-				// Use the post_display shortcode to show post details
-				echo do_shortcode('[post_display show_title="true" title_tag="h2" wrapper="div" class="listing-wrapper" show_meta="true"]');
-				?>
-			</article>
-		
-		<?php endwhile; ?>
+				<a class="button button-medium button-blue" href="/listings">View All Properties</a>
+			<?php endif; ?>
 
-		<?php
-		// Display pagination
-		$pagination_args = array(
-			'mid_size' => 2,
-			'prev_text' => '&laquo; Previous',
-			'next_text' => 'Next &raquo;',
-			'screen_reader_text' => 'Posts navigation',
-		);
-		the_posts_pagination($pagination_args);
-		?>
+			<?php
+			// Display pagination for regular listings
+			$pagination_args = array(
+				'mid_size' => 2,
+				'prev_text' => '&laquo; Previous',
+				'next_text' => 'Next &raquo;',
+				'screen_reader_text' => 'Posts navigation',
+			);
+			the_posts_pagination($pagination_args);
+		endif; ?>
 
 	</main> <!-- CONTENT -->
 
