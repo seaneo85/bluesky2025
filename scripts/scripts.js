@@ -27,6 +27,11 @@ const swiper = new Swiper('.swiper.featured-slider', {
   lazy: true,
   slidesPerView: 'auto',
   centeredSlides: true,
+  speed: 700,
+  autoplay: {
+    delay: 4000,
+    disableOnIntteraction: false,
+  },
   navigation: {
     nextEl: '.swiper-button-next',
     prevEl: '.swiper-button-prev',
@@ -64,12 +69,15 @@ function setSwiperNavButtonPosition() {
 window.addEventListener('load', setSwiperNavButtonPosition);
 window.addEventListener('resize', setSwiperNavButtonPosition);
 
-// Listing Page Slider
-
 const listingPageSlider = new Swiper('.listing-page-swiper.swiper', {
   spaceBetween: 10,
   lazy: true,
   slidesPerView: 1,
+  speed: 700,
+  autoplay: {
+    delay: 4000,
+    disableOnIntteraction: false,
+  },
   navigation: {
     nextEl: '.listing-page-swiper .swiper-button-next',
     prevEl: '.listing-page-swiper .swiper-button-prev',
