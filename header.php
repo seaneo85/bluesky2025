@@ -16,11 +16,11 @@
         <div class="header-contact-info">
           <span class="phone">
             <i class="fas fa-phone"></i>
-            <a href="tel:+18148942471">814.894.2471</a>
+            <a href="tel:+18148942471">(814) 894-2471</a>
           </span>
           <span class="phone">
             <i class="fas fa-fax"></i>
-            <a href="tel:+18148942472">814.894.2472</a>
+            <a href="tel:+18148942472">(814) 894-2472</a>
           </span>
           <span class="email">
             <i class="fas fa-envelope"></i>

@@ -130,6 +130,14 @@ border: 1px solid #93A5B9;
 /* General stylings
 ---------------------------------------------------------------*/
 
+@media (max-width: 1000px) {
+ .entry-content .alignleft, .entry-content .alignright {
+    display: block;
+    float: none;
+    margin: 0 0 1rem;
+  }
+}
+
 .content-container {
   margin: 0 auto;
   width: 100%;
@@ -160,8 +168,7 @@ border: 1px solid #93A5B9;
 .contact-info-bar {
   background-color: var(--grey-background);
   color: var(--text-color);
-  padding: 0.5rem 0;
-  font-size: 0.9rem;
+  padding: 0.75rem 0;
   border-bottom: 1px solid var(--border-grey);
 }
 
@@ -173,16 +180,19 @@ border: 1px solid #93A5B9;
 
 .header-contact-info {
   display: flex;
-  gap: 0.75em;
+  gap: 1rem;
   align-items: center;
   flex-wrap: wrap;
   justify-content: center;
+  font-weight: 500;
+  font-size: 1rem;
 }
 
 .header-contact-info span {
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  line-height: 1.4;
 }
 
 .header-contact-info a {
@@ -1239,10 +1249,9 @@ span.edit-link {
 }
 
 .entry-content img {
-  border: 1px solid #93a5b9;
-  padding: 4px;
   max-width: 100%;
   height: auto;
+  border-radius: 6px;
 }
 
 .entry-content ol {
@@ -1326,6 +1335,7 @@ aside#sidebar ul.contact-info li {
   margin-bottom: 0.75rem;
   display: flex;
   align-items: start;
+  font-weight: 500;
 }
 
 aside#sidebar ul.contact-info li i {
@@ -1594,6 +1604,7 @@ p.list-address span {
 
 /* =WordPress Core
 -------------------------------------------------------------- */
+
 .alignnone {
     margin: 5px 20px 20px 0;
 }
@@ -1727,7 +1738,7 @@ background-image: url('images/arrows.png') !important;
   
   #logo-container {
     justify-content: flex-start;
-    padding: 1rem 0;
+    padding: 2rem 0;
   }
   
   #search {
