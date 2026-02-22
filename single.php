@@ -3,9 +3,38 @@
 <!-- SINGLE.PHP -->
 <?php include('advanced-search.php'); ?>
 
+<?php
+  $post_type = get_post_type();
+  $is_hunting_property = ($post_type === 'hunting-properties');
+  // Strings
+  $price = types_render_field('property-price', array());
+  $property_types = types_render_field('property-type-s', array("separator" => ", "));
+  $basement = types_render_field('basement', array()); // returns "Yes" or "No"
+  $garage = types_render_field('garage', array()); // returns "Yes" or "No"
+  $address = types_render_field('property-address', array());
+  $city = types_render_field('city', array());
+  $zip_code = types_render_field('zip_code', array());
+  $county = types_render_field('county', array());
+
+  // Integers
+  $acres = types_render_field('acres', array());
+  $lot_size = types_render_field('lot_size', array());
+  $square_footage = types_render_field('square-feet', array());
+  $bathrooms = types_render_field('bathrooms', array());
+
+  // Other
+  $google_maps_iframe = types_render_field('google_map2', array());
+  $leased_date = types_render_field('leased-date', array());
+?>
 
 <div class="page-content-wrapper">
   <h1 class="entry-title"><?php the_title(); ?></h1>
+
+  <?php
+    if ( $leased_date ) {
+      echo '<div class="leased-status"><strong><i class="fas fa-calendar-check"></i> Leased Until: ' . esc_html($leased_date) . '</strong></div>';
+    }
+  ?>
 
   <div class="content-sidebar-wrapper">
     <div id="content">
@@ -39,30 +68,6 @@
                 </div>
               <?php endif; ?>
             <?php endif; ?>
-
-            <?php
-              // Strings
-              $price = types_render_field('property-price', array());
-              $property_types = types_render_field('property-type-s', array("separator" => ", "));
-              $basement = types_render_field('basement', array()); // returns "Yes" or "No"
-              $garage = types_render_field('garage', array()); // returns "Yes" or "No"
-              $address = types_render_field('property-address', array());
-              $city = types_render_field('city', array());
-              $zip_code = types_render_field('zip_code', array());
-              $county = types_render_field('county', array());
-
-              // Integers
-              $acres = types_render_field('acres', array());
-              $lot_size = types_render_field('lot_size', array());
-              $square_footage = types_render_field('square-feet', array());
-              $bathrooms = types_render_field('bathrooms', array());
-
-              // Booleans
-              $leased = types_render_field('leased', array()); // returns 1 or 0 from the database
-
-              // Other
-              $google_maps_iframe = types_render_field('google_map2', array());
-            ?>
 
             <div class="single-property-details">
               <?php if ($price) : ?>
@@ -127,9 +132,9 @@
                 </div>
               <?php endif; ?>
 
-              <?php if ($leased == 1) : ?>
+              <?php if ($leased_date) : ?>
                 <div class="property-leased">
-                  <strong>Status:</strong> <span class="leased-status">Leased</span>
+                  <strong>Leased Until:</strong> <?php echo esc_html($leased_date); ?>
                 </div>
               <?php endif; ?>
             </div>
@@ -150,7 +155,11 @@
       <?php endwhile; ?>
     </div> <!-- CONTENT -->
 
-    <?php get_sidebar('Primary Widget Area'); ?>
+    <?php if ($is_hunting_property) {
+      get_sidebar('hunting');
+    } else {
+      get_sidebar('Primary Widget Area');
+    } ?>
   </div>
 </div> <!-- PAGE CONTENT WRAPPER -->
 <?php get_footer(); ?>

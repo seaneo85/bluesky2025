@@ -101,6 +101,76 @@ if (!empty($current_search)) {
 				endif;
 				wp_reset_postdata();
 			endforeach;
+		elseif (!empty($current_search)) :
+			// Keyword search - WordPress query should include hunting properties via functions.php
+			if ( have_posts() ) : ?>
+				<?php while ( have_posts() ) : the_post() ?>
+					<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+						<?php
+						// Use the post_display shortcode to show post details
+						echo do_shortcode('[post_display show_title="true" title_tag="h2" wrapper="div" class="listing-wrapper" show_meta="true"]');
+						?>
+					</article>
+				<?php endwhile; ?>
+				
+				<?php
+				// Pagination for search results
+				if ($wp_query->max_num_pages > 1) {
+					$pagination_args = array(
+						'mid_size' => 2,
+						'prev_text' => '&laquo; Previous',
+						'next_text' => 'Next &raquo;',
+						'screen_reader_text' => 'Posts navigation',
+					);
+					the_posts_pagination($pagination_args);
+				}
+				?>
+			<?php else : ?>
+				<p style="font-size: 1.1rem;">No properties found for your search. Please try different keywords or browse all listings.</p>
+				<a class="button button-medium button-blue" href="/listings">View All Properties</a>
+			<?php endif;
+		elseif (!empty($current_county)) :
+			// County search - include both regular properties and hunting properties in one query
+			$county_search_query = new WP_Query(array(
+				'post_type' => array('post', 'hunting-properties'),
+				'posts_per_page' => get_option('posts_per_page'),
+				'paged' => get_query_var('paged'),
+				'meta_query' => array(
+					array(
+						'key' => 'wpcf-county',
+						'value' => $current_county,
+						'compare' => '='
+					)
+				),
+				'post_status' => 'publish'
+			));
+			
+			if ($county_search_query->have_posts()) : ?>
+				<?php while ($county_search_query->have_posts()) : $county_search_query->the_post(); ?>
+					<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+						<?php
+						echo do_shortcode('[post_display show_title="true" title_tag="h2" wrapper="div" class="listing-wrapper" show_meta="true"]');
+						?>
+					</article>
+				<?php endwhile; ?>
+				
+				<?php
+				// Pagination for county search
+				if ($county_search_query->max_num_pages > 1) {
+					$pagination_args = array(
+						'mid_size' => 2,
+						'prev_text' => '&laquo; Previous',
+						'next_text' => 'Next &raquo;',
+						'screen_reader_text' => 'Posts navigation',
+					);
+					the_posts_pagination($pagination_args);
+				}
+				?>
+			<?php else : ?>
+				<p style="font-size: 1.1rem;">We're sorry, but we currently do not have properties available in this county. Please try a different county or browse all listings.</p>
+				<a class="button button-medium button-blue" href="/listings">View All Properties</a>
+			<?php endif;
+			wp_reset_postdata();
 		else :
 			// Regular listings loop
 			if ( have_posts() ) : ?>

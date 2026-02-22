@@ -224,54 +224,61 @@ add_action('widgets_init', 'bluesky_widgets_init');
  */
 function bluesky_modify_main_query($query)
 {
-  // Only on the main query and on the front-end
-  if (!$query->is_main_query() || is_admin()) {
-    return;
-  }
-
-  // Only on home/index page
-  if (is_home() || is_front_page()) {
-    $meta_query = array();
-
-    // Priority order: search, property type, county (only one active at a time)
-    if (isset($_GET['s']) && !empty($_GET['s'])) {
-      // Let WordPress handle the search query naturally
-      // No meta query needed for keyword search
-    } elseif (isset($_GET['listing-type']) && !empty($_GET['listing-type'])) {
-      // Handle property type filtering
-      $property_type_url = sanitize_text_field($_GET['listing-type']);
-
-      // Get the database mapping
-      $db_mapping = bluesky_get_property_type_db_mapping();
-
-      // Convert user-friendly URL to database integer
-      if (isset($db_mapping[$property_type_url])) {
-        $db_value = $db_mapping[$property_type_url];
-
-        // For Toolset checkbox fields, search within serialized array structure
-        $meta_query[] = array(
-          'key' => 'wpcf-property-type-s',
-          'value' => '"' . $db_value . '"',
-          'compare' => 'LIKE'
-        );
-      }
-    } elseif (isset($_GET['county']) && !empty($_GET['county'])) {
-      // Handle county filtering  
-      $county = sanitize_text_field($_GET['county']);
-      $meta_query[] = array(
-        'key' => 'wpcf-county',
-        'value' => $county,
-        'compare' => 'LIKE' // Use LIKE for case-insensitive matching due to inconsistent data entry
-      );
+    // 1. Safety Checks: Only run on the frontend and the main query
+    if (is_admin() || !$query->is_main_query()) {
+        return;
     }
 
-    // Apply meta query if we have filters
-    if (!empty($meta_query)) {
-      $query->set('meta_query', $meta_query);
-    }
+    // 2. Targeted Pages: Only run on Home, Front Page, or Search Results
+    if ($query->is_home() || $query->is_front_page() || $query->is_search()) {
+        
+        $meta_query = array();
 
-    $query->set('post_type', 'post');
-  }
+        // 3. SET POST TYPES: This is the critical fix.
+        // If it's a search (or has search parameter), we want both. Otherwise, default to standard posts.
+        if ($query->is_search() || !empty($query->get('s'))) {
+            $query->set('post_type', array('post', 'hunting-properties'));
+        } else {
+            $query->set('post_type', array('post'));
+        }
+
+        // 4. HANDLE FILTERS (Prioritizing Search > Listing Type > County)
+        // Note: Using $_GET directly to determine which specific filter logic to apply.
+        if (($query->is_search() || !empty($query->get('s'))) && !empty(get_search_query() ?: $query->get('s'))) {
+            // Standard search logic - WP handles the keywords automatically 
+            // since we already set the post_types above.
+        } 
+        elseif (isset($_GET['listing-type']) && !empty($_GET['listing-type'])) {
+            // Handle Property Type Filtering
+            $property_type_url = sanitize_text_field($_GET['listing-type']);
+            $db_mapping = bluesky_get_property_type_db_mapping();
+
+            if (isset($db_mapping[$property_type_url])) {
+                $db_value = $db_mapping[$property_type_url];
+
+                // Toolset checkbox fields are serialized; LIKE "%"value"%" is the standard way to find them
+                $meta_query[] = array(
+                    'key'     => 'wpcf-property-type-s',
+                    'value'   => '"' . $db_value . '"',
+                    'compare' => 'LIKE'
+                );
+            }
+        } 
+        elseif (isset($_GET['county']) && !empty($_GET['county'])) {
+            // Handle County Filtering
+            $county = sanitize_text_field($_GET['county']);
+            $meta_query[] = array(
+                'key'     => 'wpcf-county',
+                'value'   => $county,
+                'compare' => 'LIKE' 
+            );
+        }
+
+        // 5. APPLY META QUERY: If any filters were added, attach them to the query.
+        if (!empty($meta_query)) {
+            $query->set('meta_query', $meta_query);
+        }
+    }
 }
 add_action('pre_get_posts', 'bluesky_modify_main_query');
 
@@ -285,6 +292,7 @@ function bluesky_get_property_types()
     'camp-lot' => 'Camp lot(s) for sale',
     'mobile-home-lot' => 'Mobile home lot for rent',
     'commercial-lot' => 'Commercial lot for sale',
+    'hunting-properties' => 'Hunting properties for sale',
     'acreage' => 'Acreage for sale',
     'house' => 'House for sale',
     'storage-garage' => 'Storage garage for rent',
