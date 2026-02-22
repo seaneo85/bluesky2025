@@ -9,7 +9,7 @@
     <h2 class="sr-only">Featured Properties</h2>
     <?php
     // featured properties slider shortcode attributes:
-    $slider = ["id" => "6832"];
+    $slider = ["name" => "homepage-slider"];
     echo (render_view($slider)); ?>
   </div>
 
