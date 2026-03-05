@@ -184,8 +184,8 @@ border: 1px solid #93A5B9;
   align-items: center;
   flex-wrap: wrap;
   justify-content: center;
-  font-weight: 500;
-  font-size: 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 .header-contact-info span {
@@ -204,7 +204,7 @@ border: 1px solid #93A5B9;
 }
 
 .header-contact-info i {
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: var(--sign-orange);
 }
 
@@ -1348,7 +1348,9 @@ aside#sidebar ul.contact-info li,
   margin-bottom: 0.5rem;
   display: flex;
   align-items: start;
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1.4;
+  font-size: 1.1rem;
 }
 
 aside#sidebar ul.contact-info li i,
