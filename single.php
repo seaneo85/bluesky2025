@@ -136,6 +136,10 @@
                 <div class="property-leased">
                   <strong>Leased Until:</strong> <?php echo esc_html($leased_date); ?>
                 </div>
+              <?php else : ?>
+                  <div class="property-cta">
+                    <strong>Interested?</strong> <a href="/contact" class="button button-medium button-blue"><i class="fas fa-envelope"></i> Contact us to check availability</a>
+                  </div>
               <?php endif; ?>
             </div>
 
