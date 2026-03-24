@@ -30,7 +30,8 @@ const swiper = new Swiper('.swiper.featured-slider', {
   speed: 700,
   autoplay: {
     delay: 4000,
-    disableOnIntteraction: false,
+    disableOnIntteraction: true,
+    pauseOnMouseEnter: true,
   },
   navigation: {
     nextEl: '.swiper-button-next',
@@ -76,7 +77,8 @@ const listingPageSlider = new Swiper('.listing-page-swiper.swiper', {
   speed: 700,
   autoplay: {
     delay: 4000,
-    disableOnIntteraction: false,
+    disableOnIntteraction: true,
+    pauseOnMouseEnter: true,
   },
   navigation: {
     nextEl: '.listing-page-swiper .swiper-button-next',
